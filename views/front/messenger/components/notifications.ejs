@@ -1,0 +1,62 @@
+<div class="notification-tab dynemic-sidebar custom-scroll" id="notification">
+    <div class="theme-title">
+        <div class="d-flex">
+            <div>
+                <h2>Notifications</h2>
+                <h4>Your Recent Alerts</h4>
+            </div>
+            <div class="flex-grow-1">
+                <a class="icon-btn btn-outline-light btn-sm m-r-15 mark-all-read" href="javascript:void(0)"
+                    title="Mark all as read">
+                    <i data-feather="check-square"></i>
+                </a>
+                <a class="icon-btn btn-outline-light btn-sm close-panel" href="javascript:void(0)">
+                    <i data-feather="x"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="notifications-loading" class="text-center p-4">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <p class="mt-2">Loading notifications...</p>
+    </div>
+
+    <!-- Notifications List -->
+    <div class="aligns custom-scroll" id="main-notifications-list" style="display: none;">
+        <ul class="chat-main mt-3" id="notifications-list">
+            <!-- Notifications will be loaded here dynamically -->
+        </ul>
+
+        <!-- Load More Button -->
+        <div id="notifications-load-more-container" class="text-center p-3" style="display: none;">
+            <button id="notifications-load-more-btn" class="btn btn-outline-primary btn-sm">
+                <span class="notifications-load-more-text">Load More</span>
+                <span class="notifications-load-more-spinner spinner-border spinner-border-sm d-none ml-2"
+                    role="status"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="notifications-empty-state" class="empty-state" style="display: none;">
+        <div class="no-result">
+            <div class="text-center">
+                <img src="<%= assetPath %>/front/images/empty-state.png" alt="" />
+                <h5>No notifications yet</h5>
+                <p>You'll see notifications here when you have them</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="notifications-error-state" class="text-center p-4" style="display: none;">
+        <div class="alert alert-danger">
+            <h6>Failed to load notifications</h6>
+            <button id="notifications-retry-btn" class="btn btn-sm btn-outline-danger mt-2">Retry</button>
+        </div>
+    </div>
+</div>

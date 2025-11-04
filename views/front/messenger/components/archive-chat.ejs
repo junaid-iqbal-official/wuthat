@@ -1,0 +1,84 @@
+<div class="archive-chat-tab dynemic-sidebar custom-scroll" id="archive-chat">
+    <div class="theme-title">
+        <div class="d-flex">
+            <div>
+                <h2>Archive Chat</h2>
+                <h4>All Saved Conversations</h4>
+            </div>
+            <div class="flex-grow-1">
+                <!-- Search Icon -->
+                <a class="icon-btn btn-outline-light btn-sm m-r-15 search" href="javascript:void(0)">
+                    <i data-feather="search"></i>
+                </a>
+
+                <!-- Search Form -->
+                <form class="form-inline search-form">
+                    <div class="form-group">
+                        <input id="archiveChatSearch" class="form-control-plaintext" type="search" placeholder="Search by name..." />
+                        <div class="icon-close close-search">
+                            <i data-feather="x"></i>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Close Panel -->
+                <a class="icon-btn btn-outline-light btn-sm close-panel" href="javascript:void(0)">
+                    <i data-feather="x"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="archive-chat-loading" class="text-center p-4">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <p class="mt-2">Loading archived chats...</p>
+    </div>
+
+    <div class="aligns custom-scroll" id="main-archive-chat-list" style="display: none;">
+        <!-- Archived Chats List -->
+        <ul class="chat-main custom-scroll mt-3" id="archive-chat-list">
+            <!-- Archived chats will be loaded here dynamically -->
+        </ul>
+
+        <!-- Load More Button -->
+        <div id="archive-chat-load-more-container" class="text-center p-3" style="display: none;">
+            <button id="archive-chat-load-more-btn" class="btn btn-outline-primary btn-sm">
+                <span class="archive-chat-load-more-text">Load More</span>
+                <span class="archive-chat-load-more-spinner spinner-border spinner-border-sm d-none ml-2" role="status"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="archive-chat-empty-state" class="empty-state"  style="display: none;">
+        <div class="no-result">
+            <div class="text-center">
+                <img src="<%= assetPath %>/front/images/empty-state.png" alt="" />
+                <h5>No Archive Chats Yet</h5>
+                <p>Start archiving to keep your inbox tidy.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Empty State -->
+    <div id="archive-chat-search-empty-state" class="empty-state" style="display: none;">
+        <div class="no-result">
+            <div class="text-center">
+                <img src="<%= assetPath %>/front/images/empty-state.png" alt="" />
+                <h5>No results found</h5>
+                <p>Try different search terms</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="archive-chat-error-state" class="text-center p-4" style="display: none;">
+        <div class="alert alert-danger">
+            <h6>Failed to load archived chats</h6>
+            <button id="archive-chat-retry-btn" class="btn btn-sm btn-outline-danger mt-2">Retry</button>
+        </div>
+    </div>
+</div>

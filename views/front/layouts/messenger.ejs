@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../../front/partials/head') %>
+</head>
+<body class="sidebar main-page <%= theme_mode %> <%= settings.theme_layout ? settings.theme_layout : '' %> <%= settings.theme_direction %>">
+    <div class="chitchat-loader">
+        <div>
+            <% if (logoSettings && logoSettings.big_logo ) { %>
+                <img src="<%= logoSettings.big_logo %>" alt="logo" />
+            <% } else { %>
+                <img src="<%= assetPath %>/images/logo/logo_big.png" alt="Logo" />
+            <% } %>
+            <h3>Simple, secure messaging for fast connect to world..!</h3>
+        </div>
+    </div>
+    <%- include('../../front/partials/messenger/no-internet') %>
+    <div class="chitchat-container sidebar-toggle">
+        <%- include('../../front/partials/messenger/left-sidebar') %>
+        <%- body %>
+        <%- include('../../front/messenger/modal/index') %>
+        <%- include('../../front/partials/script') %>
+    </div>
+    <audio id="msgSound" src="<%= assetPath %>/sounds/message.mp3" preload="auto"></audio>
+</body>
+</html>

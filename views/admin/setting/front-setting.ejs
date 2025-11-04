@@ -1,0 +1,60 @@
+<div class="page-body">
+    <%- include('../global/components/breadcrumb.ejs',{subTitle:"Frontend Setting",icon:"front-setting"}) %>
+  
+    <!-- Container-fluid starts-->
+    <div class="container-fluid default-dashboard">
+      <div class="row"><%- include('../auth/components/error-alert.ejs', { error:error }) %></div>
+  
+      <% 
+        const logoSettings = ['favicon_logo', 'app_logo', 'dark_logo', 'big_logo', 'white_logo'];
+        logoSettings?.forEach(key => { 
+          const obj = frontSettingMap.get(key);
+          if (obj) { 
+      %>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="card-header">
+                <h5><%= obj.label %></h5>
+              </div>
+              <div class="card-body">
+                <!-- Logo Settings (with image preview and upload) -->
+                <form class="g-3 needs-validation custom-input" novalidate method="post" action="/admin/setting/edit/front" enctype="multipart/form-data">
+                  <div class="row">
+                    <div class="col-md-12 mb-4">
+                      
+                      <!-- Current Image Preview -->
+                      <div class="mb-3">
+                        <div class="mt-2">
+                          <% if(obj.value){ %>
+                            <img src="<%= obj.value %>" alt="<%= obj.label %>" class="img-thumbnail">
+                          <% }else{ %>
+                            <div class="text-muted">No image available</div>
+                          <% } %>
+                        </div>
+                      </div>
+    
+                      <!-- File Upload -->
+                      <div class="mb-3">
+                        <label class="form-label">Upload New Image:</label>
+                        <input type="file" class="form-control" name="<%= key %>_file" accept="image/*" />
+                      </div>
+    
+                      <!-- Hidden field for setting key -->
+                      <input type="hidden" name="<%= key %>" value="<%= obj.value %>" />
+                    </div>
+                  </div>
+                  <div class="col-12 mt-2  d-flex justify-content-end">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                  </div>
+                </form>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } }); %>
+    </div>
+    <!-- Container-fluid Ends-->
+  </div>
+  

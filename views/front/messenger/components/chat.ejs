@@ -1,0 +1,194 @@
+<!-- Header Section -->
+<div class="contact-details" data-receiver-id="<%= user.id %>" data-receiver-name="<%= user.name %>"
+    data-receiver-avatar="<%= user.avatar %>" data-receiver-online="<%= user.is_online %>"
+    data-receiver-last-seen="<%= user.last_seen %>">
+    <div class="row">
+        <div class="col-9">
+            <div class="d-flex left">
+                <div class="media-left">
+                    <div class="profile <%= user.is_online ? 'online' : 'offline' %> menu-trigger header-profile" id="header-profile">
+                        <% if(user.avatar && userSetting.last_seen !="Nobody" ) { %>
+                            <img class="bg-img" src="<%= user.avatar %>" alt="Avatar" />
+                        <% } else { %>
+                            <div class="avatar-circle">
+                                <span class="initial"><%= user.name.charAt(0).toUpperCase() %></span>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="flex-status">
+                    <h5 class="mb-0 full-name"><%= user.name %></h5>
+                    <div class="online-status">
+                        <% if (user.is_online) { %>
+                            <div class="badge badge-success">Online</div>
+                        <% } else if (user.last_seen && userSetting.last_seen !="Nobody" ) { %>
+                            <span class="last-seen" data-timestamp="<%= user.last_seen.toISOString() %>">
+                                Last seen <%= timeSince(user.last_seen) %>
+                            </span>
+                        <% } else { %>
+                            <div class="badge badge-danger">Offline</div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="media-right">
+                    <ul>
+                        <li>
+                            <% if (!isMuted) { %>
+                                <a class="icon-btn btn-light button-effect mute mute-btn" data-bs-toggle="modal" data-bs-target="#muteNotificationModal" href="javascript:void(0)">
+                                    <i class="fa fa-volume-up"></i>
+                                </a>
+                            <% } else { %>
+                                <a class="icon-btn btn-light button-effect mute mute-btn submit-unmute" href="javascript:void(0)">
+                                    <i class="fa fa-volume-up off submit-unmute"></i>
+                                </a>
+                            <% } %>
+                        </li>
+                        <li>
+                            <a class="icon-btn btn-light search search-right" href="javascript:void(0)">
+                                <i data-feather="search"></i>
+                            </a>
+                            <form class="form-inline search-form">
+                                <div class="form-group">
+                                    <input class="form-control-plaintext" type="search" placeholder="Search.." />
+                                    <div class="icon-close close-search message-search"><i data-feather="x"></i></div>
+                                </div>
+                            </form>
+                        </li>
+                        <li id="mb-sidebar">
+                            <a class="icon-btn btn-light button-effect mobile-sidebar"
+                                href="javascript:void(0)">
+                                <i data-feather="chevron-left"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <% if(user.isFriend && !user.isBlocked){ %>
+            <div class="col-3"> 
+                <ul class="calls text-end">
+                    <% if (userSetting.call_me !="Nobody" ) { %>
+                        <li>
+                            <a class="icon-btn btn-light button-effect" href="javascript:void(0)" id="initiate-call">
+                                <i data-feather="phone"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="icon-btn btn-light button-effect" href="javascript:void(0)"
+                                data-tippy-content="Quick Video Call" id="initiate-video-call">
+                                <i data-feather="video"></i>
+                            </a>
+                        </li>
+                    <% } %>
+                    <li class="chat-friend-toggle">
+                        <a class="icon-btn btn-light bg-transparent button-effect outside" href="javascript:void(0)"
+                            data-tippy-content="Quick action">
+                            <i data-feather="more-vertical"></i>
+                        </a>
+                        <div class="chat-frind-content">
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0)" class="chat-action-btn"
+                                        data-action="<%= user.isFavorite ? 'unfavorite' : 'favorite' %>"
+                                        data-target-id="<%= user.id %>" data-target-type="user">
+                                        <span
+                                            class="icon-btn btn-outline-<%= user.isFavorite ? 'danger' : 'primary' %> button-effect btn-sm favorite-icon">
+                                            <i data-feather="heart" <% if (user.isFavorite) { %>style="fill:
+                                                #ff0000;"<% } %>></i>
+                                        </span>
+                                        <h5 class="favorite-text">
+                                            <%= user.isFavorite ? 'Unfavourite' : 'Favourite' %>
+                                        </h5>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="chat-action-btn"
+                                        data-action="<%= user.isArchived ? 'unarchive' : 'archive' %>"
+                                        data-target-id="<%= user.id %>" data-target-type="user">
+                                        <span
+                                            class="icon-btn btn-outline-<%= user.isArchived ? 'warning' : 'success' %> button-effect btn-sm archive-icon">
+                                            <i
+                                                data-feather="<%= user.isArchived ? 'archive' : 'plus-circle' %>"></i>
+                                        </span>
+                                        <h5 class="archive-text">
+                                            <%= user.isArchived ? 'Unarchive' : 'Archive' %>
+                                        </h5>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="chat-action-btn" data-action="delete"
+                                        data-target-id="<%= user.id %>" data-target-type="user">
+                                        <span class="icon-btn btn-outline-danger button-effect btn-sm">
+                                            <i data-feather="trash-2"></i>
+                                        </span>
+                                        <h5>Delete</h5>
+                                    </a>
+                                </li>
+                                <% if(user.isFriend){ %>
+                                    <li>
+                                        <a href="javascript:void(0)" class="chat-action-btn" data-action="unfriend"
+                                            data-target-id="<%= user.id %>" data-target-type="user">
+                                            <span class="icon-btn btn-outline-warning button-effect btn-sm">
+                                                <i data-feather="user-x"></i>
+                                            </span>
+                                            <h5>Unfriend</h5>
+                                        </a>
+                                    </li>
+                                <% } %>
+                                <li>
+                                    <a href="javascript:void(0)" class="chat-action-btn"
+                                        data-action="<%= user.isBlocked ? 'unblock' : 'block' %>"
+                                        data-target-id="<%= user.id %>" data-target-type="user">
+                                        <span class="icon-btn btn-outline-<%= user.isBlocked ? 'success' : 'light' %> button-effect btn-sm block-icon">
+                                            <i data-feather="<%= user.isBlocked ? 'check-circle' : 'slash' %>"></i>
+                                        </span>
+                                        <h5 class="block-text"><%= user.isBlocked ? 'Unblock' : 'Block' %></h5>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<!-- Chat Body Section -->
+<% const hide=dateGroupedMessages && dateGroupedMessages.length> 0; %>
+
+<div class="contact-chat main-chat-container <%= !hide ? 'd-none' : '' %>">
+    <ul class="chatappend">
+        <%- include('./partial-chat') %>
+        
+        <% if (userSetting.typing_indicator) { %>
+            <li class="sent last typing-m d-none" data-user-receiver-id="<%= user.id %>">
+                <div class="d-flex">
+                    <div class="profile mr-4 bg-size">
+                        <%- include('./avatar', { avatar: user.avatar || null, name: user.name }) %>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="contact-name">
+                            <h5> <%= user.name %> </h5>
+                            <h6>
+                                <%= new Date().toLocaleTimeString('en-US', { hour: '2-digit' , minute: '2-digit' ,
+                                    hour12: true }).replace(/\./g, '' ).toUpperCase() %>
+                            </h6>
+                            <ul class="msg-box">
+                                <li>
+                                    <h5>
+                                        <div class="type">
+                                            <div class="typing-loader"></div>
+                                        </div>
+                                    </h5>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        <% } %>
+    </ul>
+</div>
+<%- include('./blank-chat', { content: 'Say hi and start chatting now' , hide: hide }) %>

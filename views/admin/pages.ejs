@@ -1,0 +1,47 @@
+<div class="page-body">
+  <%- include('./global/components/breadcrumb.ejs',{subTitle:"Pages",icon:"stroke-landing-page"}) %>
+  <!-- Container-fluid starts-->
+  <div class="container-fluid default-dashboard">
+    <div class="row mb-4">
+      <form id="privacy-page">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header card-no-border pb-0">
+              <h5>Privacy Policy</h5>
+            </div>
+            <div class="card-body">
+              <textarea id="privacy_content" name="editor1">
+                <%= privacy?.content || '' %>
+              </textarea>
+              <input type="hidden" id="<%= privacy?.slug %>" value="<%= privacy?.slug %>" />
+            </div>
+            <div class="card-footer text-end">
+              <button class="btn btn-primary" type="submit" data-bs-toggle="tooltip" data-bs-original-title="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="row mb-4 mt-5">
+      <form id="terms-page">
+        <div class="col-sm-12 mb-4">
+          <div class="card">
+            <div class="card-header card-no-border pb-0">
+              <h5>Terms & Condition</h5>
+            </div>
+            <div class="card-body">
+              <textarea id="term_content" name="editor2">
+                <%= terms?.content || '' %>
+              </textarea>
+              <input type="hidden" id="<%= terms?.slug %>" value="<%= terms?.slug %>" />
+            </div>
+            <div class="card-footer text-end">
+              <button class="btn btn-primary" type="submit" data-bs-toggle="tooltip" data-bs-original-title="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Container-fluid Ends-->
+</div>

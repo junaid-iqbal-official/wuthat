@@ -1,0 +1,95 @@
+<div class="page-body">
+  <!-- breadcrumb for title -->
+  <%- include('./global/components/breadcrumb.ejs',{subTitle:"Delete Accounts", icon:"delete-acc"}) %>
+    <!-- Container-fluid starts-->
+    <div class="container-fluid user-list-wrapper">
+      <div class="row"><%- include('./auth/components/error-alert.ejs', { error:error }) %></div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card delete-account">
+            <!-- Add User Link -->
+            <div class="card-header card-no-border text-end">
+              <div class="card-header-right-icon">
+                <a class="btn btn-primary f-w-500" href="javascript:void(0)"><i class="fa-solid fa-plus pe-2"></i></a>
+              </div>
+            </div>
+            <div class="card-body pt-0 px-0">
+              <div class="list-product user-list-table">
+                <div class="table-responsive custom-scrollbar">
+                  <div id="roles-permission_wrapper" class="dt-container dt-empty-footer">
+                    <%- include('./global/components/entries-search.ejs',{ tableId:"deleteAccountTable"}) %>
+                      <!-- User List table -->
+                      <div class="dt-layout-row dt-layout-table">
+                        <div class="dt-layout-cell">
+                          <table class="table dataTable" id="deleteAccountTable">
+                            <!-- table header section -->
+                            <thead>
+                              <tr role="row">
+                                <th rowspan="1" colspan="1" class="deleteAccountTable-sortable" data-field="id">
+                                  <span>
+                                    <span class="c-o-light f-w-600">Sr.</span>
+                                  </span>
+                                </th>
+                                <th rowspan="1" colspan="1" class="deleteAccountTable-sortable" data-field="name">
+                                  <span class="dt-column-title" role="    button">
+                                    <span class="c-o-light f-w-600">Name</span>
+                                    <svg class="shorting-arrow-up">
+                                      <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#shorting-arrow-up"></use>
+                                    </svg>
+                                    <svg class="shorting-arrow-down">
+                                      <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#shorting-arrow-down"></use>
+                                    </svg>
+                                  </span>
+                                </th>
+                                <th data-dt-column="3" rowspan="1" colspan="1" class="deleteAccountTable-sortable" data-field="email">
+                                  <span class="dt-column-title" role="button">
+                                    <span class="c-o-light f-w-600">Email</span>
+                                    <svg class="shorting-arrow-up">
+                                      <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#shorting-arrow-up"></use>
+                                    </svg>
+                                    <svg class="shorting-arrow-down">
+                                      <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#shorting-arrow-down"></use>
+                                    </svg>
+                                  </span>
+                                </th>
+                                <th data-dt-column="6" rowspan="1" colspan="1" class="deleteAccountTable-sortable" data-field="delete_requested">
+                                  <span class="dt-column-title" role="button">
+                                    <span class="c-o-light f-w-600">Request Status</span>
+                                    <svg class="shorting-arrow-up">
+                                      <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#shorting-arrow-up"></use>
+                                    </svg>
+                                    <svg class="shorting-arrow-down">
+                                      <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#shorting-arrow-down"></use>
+                                    </svg>
+                                  </span>
+                                </th>
+                                <th data-dt-column="6" rowspan="1" colspan="1" class="deleteAccountTable-sortable" data-field="created_at">
+                                  <span class="dt-column-title" role="button">
+                                    <span class="c-o-light f-w-600">Requested At</span>
+                                    <svg class="shorting-arrow-up">
+                                      <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#shorting-arrow-up"></use>
+                                    </svg>
+                                    <svg class="shorting-arrow-down">
+                                      <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#shorting-arrow-down"></use>
+                                    </svg>
+                                  </span>
+                                </th>
+                              </tr>
+                            </thead>
+
+                            <!-- table body filled dynamically -->
+                            <tbody></tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <%- include('./global/components/table-pagination.ejs',{ tableId:"deleteAccountTable"}) %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Container-fluid Ends-->
+</div>

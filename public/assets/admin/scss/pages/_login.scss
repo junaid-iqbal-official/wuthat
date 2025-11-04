@@ -1,0 +1,389 @@
+/**=====================
+    3.42 Login CSS Start
+==========================**/
+
+.login-card {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  background: url("../images/login/login_bg.jpg");
+  // background-position: center;
+  padding: 30px 12px;
+  position: relative;
+  background-repeat: no-repeat;
+
+  .logo {
+    display: block;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  &.animat-rate {
+
+    .bg_circle {
+      >div {
+        width: 20px;
+        height: 20px;
+        border: 3px solid #d0eafb;
+        border-radius: 50%;
+        position: absolute;
+        z-index: 9;
+      }
+
+      div:nth-of-type(1) {
+        right: 50%;
+        animation: animationFramesOne 25s infinite linear;
+      }
+
+      div:nth-of-type(2) {
+        right: 5%;
+        top: 5%;
+        animation: animationFramesOne 35s infinite linear;
+      }
+
+      div:nth-of-type(3) {
+        bottom: 35%;
+        left: 20%;
+        animation: animationFramesOne 65s infinite linear;
+      }
+
+      div:nth-of-type(4) {
+        bottom: 26%;
+        right: 35%;
+        animation: animationFramesOne 100s infinite linear;
+      }
+
+      div:nth-of-type(5) {
+        bottom: 35%;
+        right: 5%;
+        animation: animationFramesOne 45s infinite linear;
+      }
+
+      div:nth-of-type(6) {
+        bottom: 60%;
+        left: 10%;
+        animation: animationFramesOne 90s infinite linear;
+      }
+
+      div:nth-of-type(7) {
+        top: 40%;
+        right: 40%;
+        animation: animationFramesOne 25s infinite linear;
+      }
+
+      div:nth-of-type(8) {
+        bottom: 30%;
+        left: 3%;
+        animation: animationFramesOne 80s infinite linear;
+      }
+
+      div:nth-of-type(9) {
+        top: 25%;
+        right: 35%;
+        animation: animationFramesOne 35s infinite linear;
+      }
+
+      div:nth-of-type(10) {
+        top: 40%;
+        right: 25%;
+        animation: animationFramesOne 55s infinite linear;
+      }
+
+      div:nth-of-type(11) {
+        bottom: 20%;
+        right: 14%;
+        animation: animationFramesOne 10s infinite linear;
+      }
+    }
+
+    .cross {
+      position: absolute;
+      background: #d0eafb;
+      height: 15px;
+      width: 2px;
+      top: 175px;
+      right: 50px;
+      animation: rotatedTwo 22s infinite linear;
+
+      &::after {
+        position: absolute;
+        background: #d0eafb;
+        content: "";
+        height: 2px;
+        left: -6px;
+        top: 7px;
+        width: 15px;
+        animation: rotated 25s infinite linear;
+      }
+    }
+
+    .cross1 {
+      position: absolute;
+      background: #d0eafb;
+      bottom: 10%;
+      height: 15px;
+      left: 50%;
+      width: 2px;
+      animation: rotatedTwo 50s infinite linear;
+
+      &::after {
+        position: absolute;
+        background: #d0eafb;
+        content: "";
+        height: 2px;
+        left: -6px;
+        top: 7px;
+        width: 15px;
+        animation: rotated 50s infinite linear;
+      }
+    }
+
+    .cross2 {
+      position: absolute;
+      background: #d0eafb;
+      top: 65%;
+      height: 15px;
+      left: 200px;
+      width: 2px;
+      animation: rotatedTwo 50s infinite linear;
+
+      &::after {
+        position: absolute;
+        background: #d0eafb;
+        content: "";
+        height: 2px;
+        left: -6px;
+        top: 7px;
+        width: 15px;
+        animation: rotated 50s infinite linear;
+      }
+    }
+
+    .dot {
+      position: absolute;
+      height: 5px;
+      width: 5px;
+      background-color: #d0eafb;
+      border-radius: 50%;
+      display: inline-block;
+      animation: animationFramesOne 50s infinite linear;
+      top: 10%;
+    }
+
+    .dot1 {
+      left: 15%;
+      position: absolute;
+      height: 5px;
+      width: 5px;
+      background-color: #d0eafb;
+      animation: animationFramesOne 90s infinite linear;
+      border-radius: 50%;
+    }
+  }
+
+  .btn-showcase {
+    text-align: center;
+
+    .btn {
+      line-height: 1;
+      padding: 10px 15px;
+      margin: 0;
+
+      &+.btn {
+        margin-left: 8px;
+
+        [dir="rtl"] & {
+          margin-left: unset;
+          margin-right: 8px;
+        }
+      }
+
+      i {
+        font-size: 18px;
+        color: $dark-color;
+      }
+
+      svg {
+        height: 16px;
+        vertical-align: bottom;
+      }
+    }
+  }
+
+  .login-main {
+    width: 450px;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
+    margin: 0 auto;
+    background-color: $white;
+
+    .theme-form {
+      h4 {
+        margin-bottom: 5px;
+      }
+
+      label {
+        font-size: 15px;
+        letter-spacing: 0.4px;
+      }
+
+      .checkbox label::before {
+        background-color: $card-body-color;
+        border: 1px solid #dfdfdf;
+      }
+
+      .or {
+        position: relative;
+
+        &:before {
+          content: "";
+          position: absolute;
+          width: 65%;
+          height: 2px;
+          background-color: #f3f3ff;
+          top: 9px;
+          z-index: 0;
+          right: 0;
+
+          [dir="rtl"] & {
+            right: unset;
+            left: 0;
+          }
+        }
+      }
+
+      input {
+        background-color: #f3f3ff;
+        transition: all 0.3s ease;
+
+        &::-webkit-input-placeholder {
+          color: $light-text;
+        }
+
+        &:hover,
+        &:focus {
+          border: 1px solid lighten($semi-dark, 35%);
+          box-shadow: none !important;
+          transition: all 0.3s ease;
+        }
+      }
+
+      .form-input {
+        &.position-relative {
+
+          input[type="password"],
+          input[type="text"] {
+            padding: 12px 48px 12px 12px !important;
+          }
+        }
+      }
+
+      p {
+        margin-bottom: 25px;
+        font-size: 14px;
+        color: $dark-gray;
+      }
+
+      .form-group {
+        margin-bottom: 10px;
+        position: relative;
+      }
+
+      .link {
+        position: absolute;
+        top: 0px;
+        right: 0;
+
+        [dir="rtl"] & {
+          right: unset;
+          left: 0;
+        }
+      }
+    }
+
+    &.create-account {
+      .theme-form {
+        .or {
+          &:before {
+            content: "";
+            width: 38%;
+          }
+        }
+      }
+    }
+  }
+
+  .restricted-account {
+    .login-main {
+      text-align: center;
+
+      @media (min-width: 635px) {
+        width: 550px;
+      }
+
+      .theme-form {
+        h2 {
+          margin-bottom: 12px;
+        }
+
+        img {
+          height: calc(200px + (345 - 200) * ((100vw - 320px) / (1920 - 320)));
+          display: block;
+          margin: auto;
+          margin-top: calc(40px + (50 - 40) * ((100vw - 320px) / (1920 - 320)));
+        }
+      }
+    }
+  }
+}
+
+.show-hide {
+  position: absolute;
+  top: 52px;
+  right: 20px;
+  transform: translateY(-50%);
+
+  span {
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--theme-default);
+
+    &.show {
+      &:before {
+        content: "\f06e";
+        font-family: $font-awesome;
+        font-weight: 900;
+        color: $light-text;
+      }
+    }
+
+    &:before {
+      content: "\f070";
+      font-family: $font-awesome;
+      font-weight: 900;
+      color: $light-text;
+    }
+  }
+}
+
+.needs-validation {
+  .invalid-feedback {
+    color: $dark-gray;
+  }
+
+  .show-hide {
+    right: 30px;
+  }
+
+  .invalid-tooltip {
+    top: 10px;
+    right: 10px;
+  }
+}
+
+/**=====================
+    3.42 Login CSS Ends
+==========================**/

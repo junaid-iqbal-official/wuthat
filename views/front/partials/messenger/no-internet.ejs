@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../head') %>
+</head>
+<body>
+    <div class="no-net-page">
+        <div class="no-net-aligns">
+            <h1>No internet</h1>
+            <img src="<%= assetPath %>/front/images/no-net.png"/>
+            
+            <p><%= systemSetting.no_internet_message %></p>
+            <button class="btn btn-sm btn-primary" id="retry-button">Retry</button>
+        </div>  
+    </div>
+</body>
+</html>

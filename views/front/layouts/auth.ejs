@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../../front/partials/head') %>
+</head>
+<body>
+    <div class="login-page2 animat-rate">
+      <div class="login-content-main">
+        <div class="login-content">
+          <div class="login-content-header">
+            <% if (logoSettings && logoSettings.dark_logo) { %>
+              <img class="img-fluid" src="<%= logoSettings.dark_logo %>" alt="Logo">
+            <% } else{ %>
+              <img src="<%= assetPath %>/images/logo/landing-logo.png" alt="Logo" />
+            <% } %>
+          </div>
+          <%- body %>
+        </div>
+      </div>
+      <div class="animation-block">
+        <div class="bg_circle">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="cross"></div>
+        <div class="cross1"></div>
+        <div class="cross2"></div>
+        <div class="dot"></div>
+        <div class="dot1"></div>
+        <div class="top-circle"></div>
+        <div class="center-circle"></div>
+        <div class="bottom-circle1"></div>
+        <div class="right-circle"></div>
+        <div class="right-circle1"></div>
+        <div class="quarterCircle"></div>
+        <img class="cloud-logo" src="<%= assetPath %>/front/images/login_signup/2.png" alt="login logo" />
+        <img class="cloud-logo1" src="<%= assetPath %>/front/images/login_signup/2.png" alt="login logo" />
+        <img class="cloud-logo2" src="<%= assetPath %>/front/images/login_signup/2.png" alt="login logo" />
+        <img class="cloud-logo3" src="<%= assetPath %>/front/images/login_signup/2.png" alt="login logo" />
+        <img class="cloud-logo4" src="<%= assetPath %>/front/images/login_signup/2.png" alt="login logo" />
+        <img class="cloud-logo5" src="<%= assetPath %>/front/images/login_signup/2.png" alt="login logo" />
+      </div>
+    </div>
+</body>
+<script src="<%= assetPath %>/front/js/script.js" defer></script>
+</html>

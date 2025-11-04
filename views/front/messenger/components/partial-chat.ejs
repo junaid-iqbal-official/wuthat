@@ -1,0 +1,569 @@
+<% if (typeof dateGroupedMessages !== 'undefined' && dateGroupedMessages.length > 0) { %>
+    <% dateGroupedMessages.forEach(dateGroup => { %>
+        <!-- Date Separator -->
+        <li class="date-separator">
+            <div class="date-label">
+                <span><%= dateGroup.dateLabel %></span>
+            </div>
+        </li>
+
+        <!-- Message Groups for this date -->
+        <% dateGroup.messageGroups.forEach(group => { 
+            // Filter out deleted messages
+            const visibleMessages = group.messages.filter(message => {
+                const isDeletedForEveryone = message.metadata?.deleted_by;
+                const isDeletedForCurrentUser = Array.isArray(message.metadata?.deleted_for) && message.metadata.deleted_for.includes(currentUserId);
+                return !(isDeletedForCurrentUser && !isDeletedForEveryone);
+            });
+
+            // Skip this group if no visible messages
+            if (visibleMessages.length === 0) return;
+
+            // Re-assign filtered list for further rendering
+            group.messages = visibleMessages;    
+        %>
+            <li class="<%= group.messageClass %>">
+                <div class="d-flex">
+                    <!-- Avatar -->
+                    <div class="profile bg-size">
+                        <%- include('./avatar', { avatar: group.sender.avatar || null, name: group.sender.name }) %>
+                    </div>
+
+                    <!-- Message Content -->
+                    <div class="flex-grow-1">
+                        <div class="contact-name">
+                            <h5><%= group.sender.name %></h5>
+                            <ul class="msg-box">
+                                <% 
+                                // Helper function to check if message is an image
+                                function isImageMessage(message) {
+                                    if (message.message_type === 'image') {
+                                        return true;
+                                    }
+                                    if (message.message_type === 'file') {
+                                        if (message.file_type && message.file_type.startsWith('image/')) {
+                                            return true;
+                                        }
+                                        if (message.file_url) {
+                                            const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg'];
+                                            return imageExtensions.some(ext => message.file_url.toLowerCase().includes(ext));
+                                        }
+                                    }
+                                    return false;
+                                }
+
+                                // Group consecutive image messages for grid display
+                                let processedMessages = [];
+                                let currentImageGroup = [];
+                                
+                                group.messages.forEach((message, index) => {
+                                    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                                    const timeFormatted = new Date(message.created_at)
+                                        .toLocaleTimeString([], { 
+                                            hour: '2-digit', 
+                                            minute: '2-digit', 
+                                            hour12: true,
+                                            timeZone: userTimezone
+                                        })
+                                        .replace(/\./g, '')
+                                        .toUpperCase();
+
+                                    let messageClass = 'sent';
+                                    if (group.sender.id === currentUserId && message.statuses.length) {
+                                        const messageStatus = message.statuses.find(mStatus => mStatus.user_id === message.recipient_id);
+                                        if (messageStatus) {
+                                            if (messageStatus.status === 'delivered') messageClass = 'deliver';
+                                            if (messageStatus.status === 'seen') messageClass = 'deliver seen';
+                                        }
+                                    }
+
+                                    const isDeletedForEveryone = message.metadata?.deleted_by;
+                                    const isDeletedForCurrentUser = Array.isArray(message.metadata?.deleted_for) && message.metadata?.deleted_for.includes(currentUserId);
+
+                                    // Skip if deleted for me, but NOT if deleted for everyone
+                                    if (isDeletedForCurrentUser && !isDeletedForEveryone) return;
+
+                                    // Add message properties for processing
+                                    message.messageClass = messageClass;
+                                    message.timeFormatted = timeFormatted;
+                                    message.isDeletedForEveryone = isDeletedForEveryone;
+
+                                    // Check if current message is an image
+                                    if (isImageMessage(message) && !isDeletedForEveryone) {
+                                        currentImageGroup.push(message);
+                                    } else {
+                                        // Process accumulated images first
+                                        if (currentImageGroup.length > 0) {
+                                            if (currentImageGroup.length === 1) {
+                                                processedMessages.push({
+                                                    type: 'single_image',
+                                                    message: currentImageGroup[0]
+                                                });
+                                            } else {
+                                                processedMessages.push({
+                                                    type: 'image_grid',
+                                                    messages: [...currentImageGroup]
+                                                });
+                                            }
+                                            currentImageGroup = [];
+                                        }
+                                        
+                                        // Add current non-image message
+                                        processedMessages.push({
+                                            type: 'regular',
+                                            message: message
+                                        });
+                                    }
+                                });
+
+                                // Handle remaining images at the end
+                                if (currentImageGroup.length > 0) {
+                                    if (currentImageGroup.length === 1) {
+                                        processedMessages.push({
+                                            type: 'single_image',
+                                            message: currentImageGroup[0]
+                                        });
+                                    } else {
+                                        processedMessages.push({
+                                            type: 'image_grid',
+                                            messages: [...currentImageGroup]
+                                        });
+                                    }
+                                }
+                                %>
+
+                                <!-- Render processed messages -->
+                                <% processedMessages.forEach(item => { %>
+                                    <% if (item.type === 'image_grid') { %>
+                                        <!-- Image Grid -->
+                                        <li class="msg-setting-main">
+                                            <div class="gallery-img-group" 
+                                                 data-image-group="<%= JSON.stringify(item.messages.map(msg => ({id: msg.id, url: msg.file_url, content: msg.content}))) %>"
+                                                 >
+                                                <div class="row g-2">
+                                                    <% 
+                                                        const displayImages = item.messages.slice(0, 4);
+                                                        const remainingCount = item.messages.length - 4;
+                                                    %>
+                                                    <% displayImages.forEach((imgMessage, imgIndex) => { %>
+                                                        <div class="col-6 px-1">
+                                                            <div class="img-set set-<%= imgIndex + 1 %>" style="position: relative;">
+                                                                <% if (imgIndex === 3 && remainingCount > 0) { %>
+                                                                    <!-- Show overlay on 4th image if there are more -->
+                                                                    <div class="more-images-overlay">
+                                                                        <span class="more-count">+<%= remainingCount %></span>
+                                                                    </div>
+                                                                <% } %>
+                                                                <h5 class="message-content">
+                                                                    <p class="msg-time" data-timestamp="<%= imgMessage.created_at %>"><%= imgMessage.timeFormatted %></p>
+                                                                    <% if (group.sender.id === currentUserId) { %>
+                                                                        <div class="aligns-arrow <%= imgMessage.messageClass %>" >
+                                                                            <i class="ti-check"></i>
+                                                                        </div>
+                                                                    <% } %>
+                                                                    <% if (imgMessage.metadata?.flags) { %>
+                                                                        <i class="fa fa-star starred-icon"></i>
+                                                                    <% } %>
+                                                                </h5>
+                                                                <a href="<%= imgMessage.file_url %>" class="bg-size" target="_blank">
+                                                                    <img class="img-fluid bg-img" src="<%= imgMessage.file_url %>" alt="s<%= imgMessage.content || 'image' %>" loading="lazy">
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    <% }); %>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                    <% } else if (item.type === 'single_image' && !item.message?.repliedMessage) { %>
+                                        <!-- Single Image -->
+                                        <% const message = item.message; %>
+                                        <li class="msg-setting-main" 
+                                            data-msg-id="<%= message.id %>"
+                                            data-msg-created_at="<%= message.created_at %>"
+                                            data-msg-type="<%= message.message_type %>"
+                                            data-msg-starred="<%= message.metadata?.flags?.starred_by?.includes(currentUserId) %>">
+
+                                            <% if (message.metadata?.is_forwarded) { %>
+                                                <div class="forwarded-label">
+                                                  <i class="fa fa-share text-muted"></i>
+                                                  <span class="text-muted">Forwarded</span>
+                                                </div>
+                                            <% } %>
+
+                                            <!-- Single Image Display -->
+                                            <div class="single-image">
+                                                <a href="<%= message.file_url %>" class="bg-size" target="_blank">
+                                                    <img class="img-fluid bg-img" src="<%= message.file_url %>" alt="s<%= message.content || 'image' %>" loading="lazy">
+                                                </a>
+                                                <h5 class="message-content" data-message-id="<%= message.id %>" data-message-sender="<%= group.sender.name %>" data-message-text="<%= message.file_url %>" data-message-type="<%= message.message_type %>">
+                                                    <p class="msg-time" data-timestamp="<%= message.created_at %>"><%= message.timeFormatted %></p>
+                                                    <% if (group.sender.id === currentUserId) { %>
+                                                        <div class="aligns-arrow <%= message.messageClass %>">
+                                                            <i class="ti-check"></i>
+                                                        </div>
+                                                    <% } %> 
+                                                    <% if ( message.metadata?.flags?.starred_by?.includes(currentUserId)) { %>
+                                                        <i class="fa fa-star starred-icon"></i>
+                                                    <% } %>
+                                                </h5>
+                                            </div>
+                                            
+
+                                            <!-- Reactions for Single Image -->
+                                            <% if (message.reactions && message.reactions.length > 0) { %>
+                                                <div class="message-reactions">
+                                                    <% const reactionCounts = {};
+                                                        message.reactions.forEach(reaction => {
+                                                            if (!reactionCounts[reaction.emoji]) {
+                                                                reactionCounts[reaction.emoji] = { 
+                                                                    count: 0, 
+                                                                    userReacted: false,
+                                                                    users: [] 
+                                                                };
+                                                            }
+                                                            reactionCounts[reaction.emoji].count++;
+                                                            reactionCounts[reaction.emoji].users.push({ 
+                                                                id: reaction.user_id,
+                                                                name: reaction.User ? reaction.User.name : 'Unknown' 
+                                                            });
+                                                            if (reaction.user_id === currentUser.id) {
+                                                                reactionCounts[reaction.emoji].userReacted = true;
+                                                            }
+                                                        }); 
+                                                    %>
+                                                    <% Object.entries(reactionCounts).forEach(([emoji, data]) => { %>
+                                                        <div class="reaction-count <%= data.userReacted ? 'user-reacted' : '' %>"
+                                                            data-emoji="<%= emoji %>"
+                                                            data-message-id="<%= message.id %>"
+                                                            title="<%= data.users.map(u => u.name).slice(0, 3).join(', ') %><%= data.users.length > 3 ? ' and ' + (data.users.length - 3) + ' others' : '' %>">
+                                                            <span class="emoji"><%= emoji %></span>
+                                                            <span class="count"><%= data.count %></span>
+                                                        </div>
+                                                    <% }); %>
+                                                </div>
+                                            <% } %>
+
+                                            <!-- Reaction Button -->
+                                            <button class="reaction-btn"
+                                                data-message-id="<%= message.id %>"
+                                                title="Add reaction">
+                                                <i data-feather="smile"></i>
+                                            </button>
+                                            
+                                        </li>
+
+                                    <% } else { %>
+                                        <%
+                                            const getFileIcon = (ext) => {
+                                                if (ext === 'pdf') return 'fa fa-file-pdf-o font-danger';
+                                                if (['doc', 'docx'].includes(ext)) return 'fa fa-file-word-o font-primary';
+                                                if (['xls', 'xlsx'].includes(ext)) return 'fa fa-file-excel-o font-success';
+                                                if (['ppt', 'pptx'].includes(ext)) return 'fa fa-file-powerpoint-o font-warning';
+                                                if (ext === 'txt') return 'fa fa-file-text-o font-secondary';
+                                                if (['zip','rar','7z'].includes(ext)) return 'fa fa-file-archive-o font-secondary';
+                                                return 'fa fa-file-o font-secondary';
+                                            };
+                                            const isStarred = (msg) => msg.metadata?.flags?.starred_by?.includes(currentUserId);
+                                            const formatFileName = (url) => url.split('/').pop().split('?')[0];
+                                            const getFileExt = (url) => url.split('.').pop().split('?')[0].toLowerCase();
+                                        %>
+                                        <% const message = item.message; %>
+
+                                        <% if (message.isDeletedForEveryone) { %>
+                                            <li class="msg-setting-main deleted-msg" data-msg-id="<%= message.id %>" data-msg-type="<%= message.message_type %>">
+                                                <div class="deleted-message">
+                                                <i class="fa fa-trash text-muted"></i>
+                                                <span class="text-muted">This message is deleted</span>
+                                                </div>
+                                            </li>
+
+                                        <% } else if (message.repliedMessage) { %>
+                                            <li class="msg-setting-main"
+                                                data-msg-id="<%= message.id %>" 
+                                                data-msg-created_at="<%= message.created_at %>" 
+                                                data-msg-type="<%= message.message_type %>"
+                                                data-msg-starred="<%= isStarred(message) %>">
+
+                                                <div class="replied <%= message.message_type === 'video' ? 'has-video' : '' %>"
+                                                    data-msg-id="<%= message.id %>"
+                                                    data-rplmsg-id="<%= message.repliedMessage.id %>">
+
+                                                    <% const rm = message.repliedMessage; %>
+                                                    <% if(['image','sticker'].includes(rm.message_type)) { %>
+                                                        <div class="flex image-aligns">
+                                                            <div class="info-aligns">
+                                                                <h5><%= rm.sender.name %></h5>
+                                                            </div>
+                                                            <img src="<%= rm.file_url %>" alt="">
+                                                        </div>
+                                                    <% } else if(rm.message_type === 'audio') { %>
+                                                        <div class="flex image-aligns audio-aligns">
+                                                            <div class="info-aligns">
+                                                                <h5><%= rm.sender.name %></h5>
+                                                                <p><%= rm.content %></p>
+                                                            </div>
+                                                            <div class="audio-aside"><i data-feather="play"></i></div>
+                                                        </div>
+                                                    <% } else if(rm.message_type === 'video') { %>
+                                                        <div class="flex image-aligns">
+                                                        <div class="info-aligns">
+                                                            <h5><%= rm.sender.name %></h5>
+                                                            <p><%= rm.content %></p>
+                                                        </div>
+                                                        <video class="replied-video" src="<%= rm.file_url %>"></video>
+                                                        </div>
+                                                    <% } else if(rm.message_type === 'document') { 
+                                                        const fileExt = getFileExt(rm.file_url);
+                                                        const fileName = formatFileName(rm.file_url);
+                                                    %>
+                                                        <div class="documents-name flex">
+                                                            <i class="<%= getFileIcon(fileExt) %> uploaded-data"></i>
+                                                            <span class="file-name small"><%= fileName %></span>
+                                                        </div>
+                                                    <% } else { %>
+                                                        <div class="flex">
+                                                            <h5><%= rm.sender.name %></h5>
+                                                            <p><%= rm.content %></p>
+                                                        </div>
+                                                    <% } %>
+
+                                                <!-- Main replied message type -->
+                                                <% if(message.message_type === 'image') { %>
+                                                    <div class="single-image">
+                                                        <img class="img-fluid" src="<%= message.file_url %>" alt="<%= message.content || 'image' %>" loading="lazy">
+                                                        <h5 class="message-content" 
+                                                            data-message-id="<%= message.id %>"
+                                                            data-message-sender="<%= group.sender.name %>"
+                                                            data-message-text="<%= message.file_url %>"
+                                                            data-message-type="<%= message.message_type %>">
+                                                            <p class="msg-time" data-timestamp="<%= message.created_at %>"><%= message.timeFormatted %></p>
+                                                            <% if (group.sender.id === currentUserId) { %>
+                                                                <div class="aligns-arrow <%= message.messageClass %>"><i class="ti-check"></i></div>
+                                                            <% } %>
+                                                            <% if (isStarred(message)) { %><i class="fa fa-star starred-icon"></i><% } %>
+                                                        </h5>
+                                                    </div>
+                                                <% } else if(message.message_type === 'document') { 
+                                                    const fileExt = getFileExt(message.file_url);
+                                                    const fileName = formatFileName(message.file_url);
+                                                %>
+                                                    <div class="documents-name message-content"
+                                                        data-message-id="<%= message.id %>"
+                                                        data-message-sender="<%= group.sender.name %>"
+                                                        data-message-text="<%= message.file_url %>"
+                                                        data-message-type="<%= message.message_type %>">
+                                                        <i class="<%= getFileIcon(fileExt) %> uploaded-data"></i>
+                                                        <span class="file-name small"><%= fileName %></span>
+                                                        <% if (isStarred(message)) { %><i class="fa fa-star starred-icon"></i><% } %>
+                                                    </div>
+                                                <% } else if(message.message_type === 'video') { %>
+                                                    <div class="chat-video-message">
+                                                        <video controls class="video-control">
+                                                            <source src="<%= message.file_url %>" type="video/mp4">
+                                                        </video>
+                                                        <h5 class="message-content"
+                                                            data-message-id="<%= message.id %>"
+                                                            data-message-sender="<%= group.sender.name %>"
+                                                            data-message-text="<%= message.file_url %>"
+                                                            data-message-type="<%= message.message_type %>">
+                                                            <%= message.metadata.original_filename.substring(0, 20) + '...' %>
+                                                            <p class="msg-time" data-timestamp="<%= message.created_at %>"><%= message.timeFormatted %></p>
+                                                            <% if (group.sender.id === currentUserId) { %>
+                                                                <div class="aligns-arrow <%= message.messageClass %>"><i class="ti-check"></i></div>
+                                                            <% } %>
+                                                            <% if (isStarred(message)) { %><i class="fa fa-star starred-icon"></i><% } %>
+                                                        </h5>
+                                                    </div>
+                                                <% } else { %>
+                                                    <h5 class="message-content"
+                                                        data-message-id="<%= message.id %>"
+                                                        data-message-sender="<%= group.sender.name %>"
+                                                        data-message-text="<%= message.content %>">
+                                                        <%= message.content %>
+                                                        <div class="message-align">
+                                                            <p class="msg-time" data-timestamp="<%= message.created_at %>"><%= message.timeFormatted %></p>
+                                                            <% if (group.sender.id === currentUserId) { %>
+                                                                <div class="aligns-arrow <%= message.messageClass %>"><i class="ti-check"></i></div>
+                                                            <% } %>
+                                                            <% if (isStarred(message)) { %><i class="fa fa-star starred-icon"></i><% } %>
+                                                        </div>
+                                                    </h5>
+                                                <% } %>
+                                                </div>
+                                                <button class="reaction-btn" data-message-id="<%= message.id %>" title="Add reaction">
+                                                    <i data-feather="smile"></i>
+                                                </button>
+                                            </li>
+
+                                        <% } else { %>
+                                            <li class="msg-setting-main"
+                                                data-msg-id="<%= message.id %>"
+                                                data-msg-created_at="<%= message.created_at %>"
+                                                data-msg-type="<%= message.message_type %>"
+                                                data-msg-starred="<%= isStarred(message) %>">
+
+                                                <% if (message.metadata?.is_forwarded) { %>
+                                                    <div class="forwarded-label">
+                                                        <i class="fa fa-share text-muted"></i>
+                                                        <span class="text-muted">Forwarded</span>
+                                                    </div>
+                                                <% } %>
+
+                                                <% if (message.message_type === 'audio') { %>
+                                                    <!-- Audio -->
+                                                    <div class="audiomessage">
+                                                        <div class="call-bg">
+                                                        <div class="aligns message-content" data-message-id="<%= message.id %>" data-message-sender="<%= group.sender.name %>" data-message-text="<%= message.file_url %>" data-message-type="<%= message.message_type %>">
+                                                            <div class="audioplay"><span></span><p class="msg-time" data-timestamp="<%= message.created_at %>"><%= message.timeFormatted %></p></div>
+                                                            <% if (isStarred(message)) { %><i class="fa fa-star starred-icon"></i><% } %>
+                                                            <audio controls preload="none"><source src="<%= message.file_url %>" type="audio/webm" /></audio>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+
+                                                <% } else if ((['document','file'].includes(message.message_type)) && !isImageMessage(message)) { 
+                                                    const fileExt = message.metadata?.original_filename?.split('.').pop().toLowerCase() || 'file';
+                                                    const fileName = message.metadata?.original_filename || 'Document';
+                                                    const fileSize = message.metadata?.file_size ? formatFileSize(message.metadata.file_size) : '';
+                                                    const fileType = fileExt.toUpperCase();
+                                                %>
+                                                    <!-- Document -->
+                                                    <div class="document">
+                                                        <i class="<%= getFileIcon(fileExt) %> uploaded-data"></i>
+                                                        <div class="details">
+                                                            <h5 title="<%= fileName %>"><%= fileName %></h5>
+                                                            <h6><%= fileSize %> <%= fileType %> file</h6>
+                                                        </div>
+                                                        <div class="icon-btns">
+                                                            <a class="icon-btn btn-outline-light" href="<%= message.file_url %>" download="<%= fileName %>" title="Download"><i data-feather="download"></i></a>
+                                                        </div>
+                                                        <h5 class="message-content" data-message-id="<%= message.id %>" data-message-sender="<%= group.sender.name %>" data-message-text="<%= message.file_url %>" data-message-type="<%= message.message_type %>">
+                                                            <% if (group.sender.id === currentUserId) { %>
+                                                                <div class="aligns-arrow <%= message.messageClass %>"><i class="ti-check"></i></div>
+                                                            <% } %>
+                                                            <% if (isStarred(message)) { %><i class="fa fa-star starred-icon"></i><% } %>
+                                                        </h5>
+                                                    </div>
+
+                                                <% } else if (message.message_type === 'call') { 
+                                                    const duration = message.metadata?.duration || 0;
+                                                    const callType = message.metadata?.call_type || 'video';
+                                                    const isMissed = (duration === 0 && message.metadata?.action === 'ended' && message.recipient_id === currentUserId);
+                                                %>
+                                                    <!-- Call -->
+                                                    <div class="<%= callType === 'audio' ? 'voicecall' : 'videocall' %>">
+                                                        <div class="call-bg">
+                                                            <div class="aligns">
+                                                                <h5>
+                                                                    <% if (callType === 'audio') { %>
+                                                                        <% if (isMissed) { %>
+                                                                            <i data-feather="phone-missed"></i>
+                                                                        <% } 
+                                                                        else if (message.recipient_id === currentUserId) { %>
+                                                                            <i data-feather="phone-incoming"></i>
+                                                                        <% } else { %>
+                                                                            <i data-feather="phone-outgoing"></i>
+                                                                        <% } %>
+                                                                    <% } else { %>
+                                                                        <i data-feather="video"></i>
+                                                                    <% } %>
+                                                                </h5>
+                                                                <h5>
+                                                                    <%= isMissed ? 'Missed Call' : (message.recipient_id === currentUserId ? 'Incoming Call' : 'Outgoing Call') %>
+                                                                    <span><%= formatDuration(duration) %></span>
+                                                                    <p class="msg-time" data-timestamp="<%= message.created_at %>"><%= message.timeFormatted %></p>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                <% } else if (message.message_type === 'sticker') { %>
+                                                    <!-- Sticker -->
+                                                    <h5 class="message-content" data-message-id="<%= message.id %>" data-message-sender="<%= group.sender.name %>" data-message-text="<%= message.file_url %>" data-message-type="<%= message.message_type %>">
+                                                        <img class="img-fluid" src="<%= message.file_url%>" alt="sticker">
+                                                        <% if (isStarred(message)) { %><i class="fa fa-star starred-icon"></i><% } %>
+                                                    </h5>
+
+                                                <% } else if (message.message_type === 'video') { %>
+                                                    <!-- Video -->
+                                                    <div class="chat-video-message">
+                                                        <video controls class="video-control"><source src="<%= message.file_url %>" type="video/mp4"></video>
+                                                        <h5 class="message-content" data-message-id="<%= message.id %>" data-message-sender="<%= group.sender.name %>" data-message-text="<%= message.file_url %>" data-message-type="<%= message.message_type %>">
+                                                            <%= message.metadata.original_filename.substring(0, 20) + '...' %>
+                                                            <p class="msg-time" data-timestamp="<%= message.created_at %>"><%= message.timeFormatted %></p>
+                                                            <% if (group.sender.id === currentUserId) { %>
+                                                                <div class="aligns-arrow <%= message.messageClass %>"><i class="ti-check"></i></div>
+                                                            <% } %>
+                                                            <% if (isStarred(message)) { %><i class="fa fa-star starred-icon"></i><% } %>
+                                                        </h5>
+                                                    </div>
+
+                                                <% } else { %>
+                                                    <!-- Text -->
+                                                    <h5 class="message-content" data-message-id="<%= message.id %>" data-message-sender="<%= group.sender.name %>" data-message-text="<%= message.content %>">
+                                                        <%= message.content %>
+                                                        <% if (message.metadata?.edited) { %>
+                                                            <small class="edited-label">(edited)</small>
+                                                        <% } %>
+                                                        <p class="msg-time" data-timestamp="<%= message.created_at %>" ><%= message.timeFormatted %></p>
+                                                        <% if (group.sender.id === currentUserId) { %>
+                                                            <div class="aligns-arrow <%= message.messageClass %>"><i class="ti-check"></i></div>
+                                                        <% } %>
+                                                        <% if (isStarred(message)) { %><i class="fa fa-star starred-icon"></i><% } %>
+                                                    </h5>
+                                                <% } %>
+
+                                                <!-- Reactions -->
+                                                <% if (message.reactions && message.reactions.length > 0) { 
+                                                    const reactionCounts = {};
+                                                    message.reactions.forEach(r => {
+                                                        if (!reactionCounts[r.emoji]) reactionCounts[r.emoji] = { count: 0, userReacted: false, users: [] };
+                                                        reactionCounts[r.emoji].count++;
+                                                        reactionCounts[r.emoji].users.push({ id: r.user_id, name: r.User ? r.User.name : 'Unknown' });
+                                                        if (r.user_id === currentUser.id) reactionCounts[r.emoji].userReacted = true;
+                                                    });
+                                                %>
+                                                <div class="message-reactions">
+                                                    <% Object.entries(reactionCounts).forEach(([emoji, data]) => { %>
+                                                        <div class="reaction-count <%= data.userReacted ? 'user-reacted' : '' %>"
+                                                            data-emoji="<%= emoji %>"
+                                                            data-is-blocked="<%= user.isBlocked %>"
+                                                            data-message-id="<%= message.id %>"
+                                                            title="<%= data.users.map(u => u.name).slice(0, 3).join(', ') %><%= data.users.length > 3 ? ' and ' + (data.users.length - 3) + ' others' : '' %>">
+                                                            <span class="emoji"><%= emoji %></span>
+                                                            <span class="count"><%= data.count %></span>
+                                                        </div>
+                                                    <% }); %>
+                                                </div>
+                                                <% } %>
+                                                <% if (message.message_type !== 'call' && !user.isBlocked) { %>
+                                                    <button class="reaction-btn" data-message-id="<%= message.id %>" title="Add reaction"><i data-feather="smile"></i></button>
+                                                <% } %>
+                                            </li>
+                                        <% } %>
+                                    <% } %>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        <% }); %>
+    <% }); %>
+<% } %>
+
+<!-- Image Gallery Modal -->
+<div id="imageViewerModal" class="image-viewer-modal hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span id="imageCounter" class="image-counter"></span>
+        <span class="close-btn">&times;</span>
+      </div>
+      <div class="modal-body">
+        <button class="nav-btn prev-btn">&#10094;</button>
+        <img id="viewerImage" src="" alt="image" />
+        <button class="nav-btn next-btn">&#10095;</button>
+      </div>
+    </div>
+</div>

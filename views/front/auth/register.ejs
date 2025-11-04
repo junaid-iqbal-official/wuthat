@@ -1,0 +1,104 @@
+<h3>Let's Get You Talking</h3>
+<h4>Sign up and jump into conversations that matter.</h4>
+
+<% if (error) { %>
+    <div class="alert alert-danger" role="alert">
+        <i class="fa-solid fa-warning"></i>
+        <%= error %>
+    </div>
+    <% } %>
+
+        <form class="form2 register" method="POST" action="/register" id="registerForm">
+            <div class="row ">
+                <div class="form-group col-12 col-xl-6 col-lg-6 col-md-6">
+                    <label class="col-form-label" for="username">Username</label>
+                    <input class="form-control" name="username" id="username" value="<%= old?.username || '' %>"
+                        type="text" placeholder="Enter Username" autocomplete="off" required>
+                </div>
+                <div class="form-group col-12 col-xl-6 col-lg-6 col-md-6">
+                    <label class="col-form-label" for="name">Name</label>
+                    <input class="form-control" name="name" id="name" value="<%= old?.name || '' %>" type="text"
+                        placeholder="Enter full name" autocomplete="off" required>
+                </div>
+                <div class="form-group col-12 col-xl-6 col-lg-6 col-md-6">
+                    <label class="col-form-label" for="email">Email Address</label>
+                    <input class="form-control" name="email" id="email" value="<%= old?.email || '' %>" type="email"
+                        placeholder="Enter Email" autocomplete="off" required>
+                </div>
+                <div class="form-group col-12 col-xl-6 col-lg-6 col-md-6">
+                    <label class="col-form-label" for="phone">Phone Number</label>
+                    <div class="phone-input-container">
+                        <div class="country-code-dropdown">
+                            <button type="button" class="dropdown-toggle" id="countryCodeToggle">
+                                <span class="selected-option" id="selectedCountryCode">
+                                    <span class="flag">🇺🇸</span>
+                                    <span class="code">+1</span>
+                                </span>
+                                <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="6,9 12,15 18,9"></polyline>
+                                </svg>
+                            </button>
+                            <div class="dropdown-menu" id="countryCodeMenu">
+                                <div class="search-container">
+                                    <input type="text" class="search-input" id="countrySearch"
+                                        placeholder="Search countries...">
+                                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <path d="m21 21-4.35-4.35"></path>
+                                    </svg>
+                                </div>
+                                <div class="options-container" id="optionsContainer">
+                                    <% if (countryCodes && countryCodes.length> 0) { %>
+                                        <% countryCodes.forEach(function(country) { %>
+                                            <div class="option" data-code="<%= country.code %>"
+                                                data-country="<%= country.country %>" data-flag="<%= country.flag %>">
+                                                <span class="flag">
+                                                    <%= country.flag %>
+                                                </span>
+                                                <span class="country-name">
+                                                    <%= country.country %>
+                                                </span>
+                                                <span class="country-code">
+                                                    <%= country.code %>
+                                                </span>
+                                            </div>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <div class="option no-data">No country codes available</div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="countryCode" id="countryCodeInput"
+                            value="<%= old?.countryCode || '+1' %>">
+                        <input class="form-control phone-input" name="phone" id="phone" value="<%= old?.phone || '' %>"
+                            type="tel" placeholder="Enter Phone Number" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 col-xl-6 col-lg-6 col-md-6">
+                    <label class="col-form-label" for="password">Password</label>
+                    <input class="form-control" name="password" id="password" type="password" placeholder="Password"
+                        autocomplete="off" required minlength="6">
+                </div>
+                <div class="form-group col-12 col-xl-6 col-lg-6 col-md-6">
+                    <label class="col-form-label" for="password">Confirm-password</label>
+                    <input class="form-control" name="confirm_password" id="confirm_password" type="password"
+                        placeholder="Confirm Password" autocomplete="off" required minlength="6">
+                </div>
+
+            </div>
+            <div class="form-group mb-0">
+                <div class="buttons">
+                    <button type="submit" class="btn button-effect btn-primary" id="registerButton">Signup
+                        <span class="btn-spinner spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <p>Already have an account?</p>
+                <a href="/login">Log in</a>
+            </div>
+        </form>

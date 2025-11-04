@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+</head>
+<body>
+    <div class="error-page">
+        <div class="error-aligns">
+            <h1>
+                404 error
+            </h1>
+            <p><%= systemSetting.not_found_message %></p>
+            <a href="/">
+                <button class="btn btn-primary">go back</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

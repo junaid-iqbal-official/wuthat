@@ -1,0 +1,33 @@
+<div class="modal fade contact-modal contactModal" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="contactForm">
+        <div class="modal-body">
+          <div class="row mb-3">
+            <label for="name" class="form-label col-2">Name<span class="text-danger">*</span></label>
+            <input type="text" class="form-control col-10" placeholder="Enter Name" id="name" name="name" required />
+          </div>
+          <div class="row mb-3">
+            <label for="email" class="form-label col-2">Email<span class="text-danger">*</span></label>
+            <input type="email" class="form-control col-10" id="email" placeholder="Enter E-mail" value="<%= user.email %>" readonly name="email" required />
+          </div>
+          <div class="row mb-3">
+            <label for="subject" class="form-label col-2">Subject<span class="text-danger">*</span></label>
+            <input type="text" class="form-control col-10" id="subject" placeholder="Enter Subject" name="subject" required />
+          </div>
+          <div class="row">
+            <label for="message" class="form-label col-2">Message<span class="text-danger">*</span></label>
+            <textarea class="form-control col-10" id="message" name="message" placeholder="Enter Your Message Here.." rows="4" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

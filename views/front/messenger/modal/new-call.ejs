@@ -1,0 +1,60 @@
+<div class="modal fade add-popup msg-chat-modal" id="msgcallModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Start New Call</h2>
+          <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="chat-msg-search">
+            <div class="input-group">
+              <input class="form-control" id="callSearchInput"  type="text" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon20"/>
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon20">@</span>
+              </div>
+            </div>
+          </div>
+          <ul class="call-log-main custom-scroll" id="newCallList">
+            <% chatContact.forEach((call) => { %>
+              <li id="new-call">
+                <div class="call-box">
+                  <div class="profile <%= call.is_online ? 'online' : 'offline' %>">
+                    <% if (call.avatar) { %>
+                      <img class="bg-img" src="<%= call.avatar %>" alt="Avatar"/>
+                    <% } else { %>
+                      <div class="avatar-circle">
+                        <span class="initial"><%= call.name.charAt(0).toUpperCase() %></span>
+                      </div>
+                    <% } %>
+                  </div>
+                  <div class="details">
+                    <h5><%= call.name %></h5>
+                    <h6><%= call.status %></h6>
+                  </div>
+                  <div class="call-status">
+                    <div class="icon-btn btn-outline-primary btn-sm button-effect">
+                      <i data-feather="phone"></i>
+                    </div>
+                    <div class="icon-btn btn-outline-success btn-sm button-effect">
+                      <i data-feather="video"></i>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            <% }) %>
+          </ul>
+          <!-- Empty State -->
+          <div id="search-call-empty-state" class="empty-state mb-5" style="display: none;">
+            <div class="no-result">
+                <div class="text-center">
+                  <img src="<%= assetPath %>/front/images/empty-state.png" alt="" />
+                  <h5>No Records Found</h5>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="contact-list-tab dynemic-sidebar custom-scroll" id="contact-list">
+    <div class="theme-title">
+        <div class="d-flex">
+            <div>
+                <h2>Find Friends</h2>
+                <h4>People You May Know</h4>
+            </div>
+            <div class="flex-grow-1">
+                <!-- Search Icon -->
+                <a class="icon-btn btn-outline-light btn-sm m-r-15 search" href="javascript:void(0)">
+                    <i data-feather="search"></i>
+                </a>
+
+                <!-- Search Form -->
+                <form class="form-inline search-form">
+                    <div class="form-group">
+                        <input id="contactSearch" class="form-control-plaintext" type="search"
+                            placeholder="Search by name or email..." />
+                        <div class="icon-close close-search">
+                            <i data-feather="x"></i>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Close Panel -->
+                <a class="icon-btn btn-outline-light btn-sm close-panel" href="javascript:void(0)">
+                    <i data-feather="x"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="friends-loading" class="text-center p-4">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <p class="mt-2">Loading friend suggestions...</p>
+    </div>
+
+    <!-- Contact List -->
+    <div class="aligns custom-scroll" id="main-friends-list" style="display: none;">
+        <ul class="chat-main custom-scroll mt-3" id="friends-suggestion-list">
+            <!-- Friend suggestions will be loaded here dynamically -->
+        </ul>
+
+        <!-- Load More Button -->
+        <div id="friends-load-more-container" class="text-center p-3" style="display: none;">
+            <button id="friends-load-more-btn" class="btn btn-outline-primary btn-sm">
+                <span class="friends-load-more-text">Load More</span>
+                <span class="friends-load-more-spinner spinner-border spinner-border-sm d-none ml-2"
+                    role="status"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="friends-empty-state" class="empty-state" style="display: none;">
+        <div class="no-result">
+            <div class="text-center">
+                <img src="<%= assetPath %>/front/images/empty-state.png" alt="" />
+                <h5>No friend suggestions</h5>
+                <p>All users are already your friends or have pending requests</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="friends-error-state" class="text-center p-4" style="display: none;">
+        <div class="alert alert-danger">
+            <h6>Failed to load friend suggestions</h6>
+            <button id="friends-retry-btn" class="btn btn-sm btn-outline-danger mt-2">Retry</button>
+        </div>
+    </div>
+</div>

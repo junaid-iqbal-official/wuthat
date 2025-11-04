@@ -1,0 +1,41 @@
+<div class="modal account-confirmation fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">
+                    <i class="fa fa-exclamation-triangle text-danger me-2"></i>Confirm Account Deletion
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="warning-icon">
+                        <i class="fa fa-exclamation-circle"></i>
+                    </div>
+                    <h4>Are you sure?</h4>
+                    <p>This action will permanently delete your account and all associated data. This cannot be undone.</p>
+                </div>
+                
+                <div class="alert mt-4">
+                    <h6 class="alert-heading">What will be deleted:</h6>
+                    <ul class="list-group list-group-flush my-2">
+                        <li class="list-group-item ps-0"><i class="fa fa-user me-2"></i>Your profile information</li>
+                        <li class="list-group-item ps-0"><i class="fa fa-image me-2"></i>Your profile photo</li>
+                        <li class="list-group-item ps-0"><i class="fa fa-comments me-2"></i>All your chat history</li>
+                    </ul>
+                </div>
+                
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="understandConsequences">
+                    <label class="form-check-label" for="understandConsequences">
+                        I understand that this action is irreversible
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete" disabled>Delete My Account</button>
+            </div>
+        </div>
+    </div>
+</div>

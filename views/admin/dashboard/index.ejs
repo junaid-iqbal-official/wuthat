@@ -1,0 +1,482 @@
+<div class="page-body">
+  <%- include('../global/components/breadcrumb.ejs',{subTitle:"Dashboard",icon:"stroke-home"}) %>
+    <!-- Container-fluid starts-->
+    <div class="container-fluid default-dashboard">
+      <div class="row widget-grid">
+        <!-- Welcome Card -->
+        <div class="col-xxl-4 col-sm-6 box-col-6">
+          <div class="card profile-box">
+            <div class="card-body">
+              <div class="d-flex media-wrapper justify-content-between">
+                <div class="flex-grow-1">
+                  <div class="greeting-user">
+                    <h2 class="f-w-600">Welcome <%= user.name %>!</h2>
+                    <p>Here's what's happening in your chat app today</p>
+                    <div class="whatsnew-btn"><a class="btn btn-outline-white" href="/admin/account">View Profile</a>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="clockbox">
+                    <svg id="clock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+                      <g id="face">
+                        <circle class="circle" cx="300" cy="300" r="253.9"></circle>
+                        <path class="hour-marks"
+                          d="M300.5 94V61M506 300.5h32M300.5 506v33M94 300.5H60M411.3 107.8l7.9-13.8M493 190.2l13-7.4M492.1 411.4l16.5 9.5M411 492.3l8.9 15.3M189 492.3l-9.2 15.9M107.7 411L93 419.5M107.5 189.3l-17.1-9.9M188.1 108.2l-9-15.6">
+                        </path>
+                        <circle class="mid-circle" cx="300" cy="300" r="16.2"></circle>
+                      </g>
+                      <g id="hour">
+                        <path class="hour-hand" d="M300.5 298V142"></path>
+                        <circle class="sizing-box" cx="300" cy="300" r="253.9"></circle>
+                      </g>
+                      <g id="minute">
+                        <path class="minute-hand" d="M300.5 298V67"></path>
+                        <circle class="sizing-box" cx="300" cy="300" r="253.9"></circle>
+                      </g>
+                      <g id="second">
+                        <path class="second-hand" d="M300.5 350V55"></path>
+                        <circle class="sizing-box" cx="300" cy="300" r="253.9"></circle>
+                      </g>
+                    </svg>
+                  </div>
+                  <div class="badge f-10 p-0" id="txt"></div>
+                </div>
+              </div>
+              <div class="cartoon"><img class="img-fluid" src="<%= assetPath %>/admin/images/cartoon.svg"
+                  alt="vector women with laptop" /></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Statistics Row -->
+        <div class="col-xxl-auto col-sm-6 box-col-3">
+          <div class="row">
+            <!-- Total Users -->
+            <div class="col-xl-12">
+              <div class="card widget-1">
+                <div class="card-body">
+                  <div class="widget-content">
+                    <div class="widget-round primary">
+                      <div class="bg-round">
+                        <svg class="fill-primary">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#crm-user"></use>
+                        </svg>
+                        <svg class="half-circle svg-fill">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#halfcircle"></use>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4><span>
+                          <%= userCount || 0 %>
+                        </span></h4>
+                      <span class="f-light">Total Users</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Users Today -->
+            <div class="col-xl-12">
+              <div class="card widget-1">
+                <div class="card-body">
+                  <div class="widget-content">
+                    <div class="widget-round success">
+                      <div class="bg-round">
+                        <svg>
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#c-customer"></use>
+                        </svg>
+                        <svg class="half-circle svg-fill">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#halfcircle"></use>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4><span class="counter" data-target="<%= activeUsersToday || 0 %>">
+                          <%= activeUsersToday || 0 %>
+                        </span></h4>
+                      <span class="f-light">Active Today</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Online & New Users -->
+        <div class="col-xxl-auto col-sm-6 box-col-3">
+          <div class="row">
+            <!-- Online Users -->
+            <div class="col-xxl-12 col-xl-6">
+              <div class="card widget-1">
+                <div class="card-body">
+                  <div class="widget-content">
+                    <div class="widget-round success">
+                      <div class="bg-round">
+                        <svg class="fill-success">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#crm-user"></use>
+                        </svg>
+                        <svg class="half-circle svg-fill">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#halfcircle"></use>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4><span>
+                          <%= onlineUsers || 0 %>
+                        </span></h4>
+                      <span class="f-light">Online Now</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- New Users This Week -->
+            <div class="col-xxl-12 col-xl-6">
+              <div class="card widget-1">
+                <div class="card-body">
+                  <div class="widget-content">
+                    <div class="widget-round warning">
+                      <div class="bg-round">
+                        <svg>
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#c-profit"></use>
+                        </svg>
+                        <svg class="half-circle svg-fill">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#halfcircle"></use>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4><span class="counter" data-target="<%= newUsersThisWeek || 0 %>">
+                          <%= newUsersThisWeek || 0 %>
+                        </span></h4>
+                      <span class="f-light">New This Week</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message Statistics -->
+        <div class="col-xxl-auto col-sm-6 box-col-3">
+          <div class="row">
+            <!-- Total Messages -->
+            <div class="col-xxl-12 col-xl-6">
+              <div class="card widget-1">
+                <div class="card-body">
+                  <div class="widget-content">
+                    <div class="widget-round primary">
+                      <div class="bg-round">
+                        <svg class="fill-primary">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#c-invoice"></use>
+                        </svg>
+                        <svg class="half-circle svg-fill">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#halfcircle"></use>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4><span class="counter" data-target="<%= totalMessages || 0 %>">
+                          <%= (totalMessages || 0).toLocaleString() %>
+                        </span></h4>
+                      <span class="f-light">Total Messages</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Today's Messages -->
+            <div class="col-xxl-12 col-xl-6">
+              <div class="card widget-1">
+                <div class="card-body">
+                  <div class="widget-content">
+                    <div class="widget-round success">
+                      <div class="bg-round">
+                        <svg>
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#c-customer"></use>
+                        </svg>
+                        <svg class="half-circle svg-fill">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#halfcircle"></use>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4><span class="counter" data-target="<%= todayMessages || 0 %>">
+                          <%= todayMessages || 0 %>
+                        </span>
+                        <% if (messageGrowth && messageGrowth !==0) { %>
+                          <small class="<%= messageGrowth > 0 ? 'text-success' : 'text-danger' %>">
+                            <%= messageGrowth> 0 ? '+' : '' %><%= messageGrowth %>%
+                          </small>
+                          <% } %>
+                      </h4>
+                      <span class="f-light">Today's Messages</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Media & File Statistics -->
+        <div class="col-xxl-6 col-sm-6 box-col-3">
+          <div class="row">
+            <!-- Media Messages -->
+            <div class="col-xl-6">
+              <div class="card widget-1">
+                <div class="card-body">
+                  <div class="widget-content">
+                    <div class="widget-round primary">
+                      <div class="bg-round">
+                        <svg class="fill-info">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#c-invoice"></use>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4><span class="counter" data-target="<%= mediaMessages || 0 %>">
+                          <%= mediaMessages || 0 %>
+                        </span></h4>
+                      <span class="f-light">Media Shared</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- File Messages -->
+            <div class="col-xl-6">
+              <div class="card widget-1">
+                <div class="card-body">
+                  <div class="widget-content">
+                    <div class="widget-round warning">
+                      <div class="bg-round">
+                        <svg>
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#c-profit"></use>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4><span class="counter" data-target="<%= fileMessages || 0 %>">
+                          <%= fileMessages || 0 %>
+                        </span></h4>
+                      <span class="f-light">Files Shared</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reports & System -->
+        <div class="col-xxl-6 col-sm-6 box-col-3">
+          <div class="row">
+            <!-- Pending Reports -->
+            <div class="col-xl-6">
+              <div class="card widget-1">
+                <div class="card-body">
+                  <div class="widget-content">
+                    <div class="widget-round success">
+                      <div class="bg-round">
+                        <svg class="fill-success">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#crm-user"></use>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4>
+                        <span class="<%= (pendingReports || 0) > 0 ? 'text-danger' : '' %>">
+                          <%= pendingReports || 0 %>
+                        </span>
+                      </h4>
+                      <span class="f-light">Pending Reports</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Blocked Users -->
+            <div class="col-xl-6">
+              <div class="card widget-1">
+                <div class="card-body">
+                  <div class="widget-content">
+                    <div class="widget-round fill-danger">
+                      <div class="bg-round">
+                        <svg class="fill-danger">
+                          <use href="<%= assetPath %>/admin/svg/icon-sprite.svg#crm-user"></use>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4><span>
+                          <%= blockedUsers || 0 %>
+                        </span></h4>
+                      <span class="f-light">Blocked Users</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Registrations -->
+        <div class="col-xxl-12 col-xl-12 box-col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title mb-0">Recent User Registrations</h4>
+            </div>
+            <div class="card-body">
+              <% if (!recentRegistrations || recentRegistrations.length===0) { %>
+                <p class="text-center text-muted">No recent registrations</p>
+                <% } else { %>
+                  <div class="table-responsive">
+                    <table class="table table-nowrap align-middle mb-0">
+                      <thead>
+                        <tr>
+                          <th>User</th>
+                          <th>Email</th>
+                          <th>Status</th>
+                          <th>Joined</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% recentRegistrations.forEach(function(user) { %>
+                          <tr>
+                            <td>
+                              <div class="d-flex align-items-center">
+                                <div class="avatar-xs me-3 profile-nav">
+                                  <div class="avatar-circle">
+                                    <span class="initial"><%= (user.name || 'U' ).charAt(0).toUpperCase() %></span>
+                                  </div>
+                                </div>
+                                <h6 class="mb-0">
+                                  <%= user.name || 'Unknown' %>
+                                </h6>
+                              </div>
+                            </td>
+                            <td>
+                              <%= user.email || 'N/A' %>
+                            </td>
+                            <td>
+                              <span class="badge badge-<%= user.status === 'active' ? 'success' : 'danger' %>">
+                                <%= user.status ? user.status.charAt(0).toUpperCase() + user.status.slice(1) : 'Unknown'
+                                  %>
+                              </span>
+                            </td>
+                            <td>
+                              <%= new Date(user.created_at).toLocaleDateString() %>
+                            </td>
+                          </tr>
+                          <% }); %>
+                      </tbody>
+                    </table>
+                  </div>
+                  <% } %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="col-xxl-6 col-xl-12 box-col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title mb-0">Message Activity (Last 7 Days)</h4>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="messageActivityChart" width="400" height="200"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hourly Activity Chart -->
+        <div class="col-xxl-6 col-xl-12 box-col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title mb-0">Today's Hourly Activity</h4>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="hourlyActivityChart" width="400" height="200"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message Types Chart -->
+        <div class="col-xxl-6 col-xl-12 box-col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title mb-0">Message Types Distribution</h4>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="messageTypesChart" width="400" height="200"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report Types Chart -->
+        <div class="col-xxl-6 col-xl-12 box-col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title mb-0">Report Types</h4>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="reportTypesChart" width="400" height="200"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Growth Chart -->
+        <div class="col-xxl-12 box-col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title mb-0">Weekly User Growth</h4>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="weeklyGrowthChart" width="400" height="150"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- Container-fluid Ends-->
+</div>
+<!-- Store data in hidden elements for JavaScript -->
+<script type="application/json" id="dailyMessageData">
+<%- JSON.stringify(dailyMessageStats || []) %>
+</script>
+
+<script type="application/json" id="messageTypeData">
+<%- JSON.stringify(messageTypeStats || []) %>
+</script>
+
+<script type="application/json" id="reportTypeData">
+<%- JSON.stringify(reportTypeStats || []) %>
+</script>
+
+<script type="application/json" id="hourlyMessageData">
+<%- JSON.stringify(messagesByHour || []) %>
+</script>
+
+<script type="application/json" id="weeklyGrowthData">
+<%- JSON.stringify(weeklyUserGrowth || []) %>
+</script>

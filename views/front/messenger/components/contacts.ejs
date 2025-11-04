@@ -1,0 +1,42 @@
+<!-- Contact List Container -->
+<div id="contact-list-container" class="chat-wrapper position-relative">
+    <!-- Loading indicator -->
+    <div id="contact-loading" class="text-center p-4">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <p class="mt-2">Loading contacts...</p>
+    </div>
+
+    <!-- Contact List -->
+    <ul class="chat-main chat-list custom-scroll" id="friends-list" style="display: none;">
+        <!-- Contacts will be loaded here dynamically -->
+    </ul>
+
+    <!-- Load More Button -->
+    <div id="contact-load-more-container" class="text-center p-3" style="display: none;">
+        <button id="contact-load-more-btn" class="btn btn-outline-primary btn-sm">
+            <span class="contact-load-more-text">Load More</span>
+            <span class="contact-load-more-spinner spinner-border spinner-border-sm d-none ml-2" role="status"></span>
+        </button>
+    </div>
+
+    <!-- Empty State -->
+    <div id="contact-empty-state" class="empty-state contact-empty-state" style="display: none;">
+        <div class="no-result">
+            <div class="text-center">
+                <img src="<%= assetPath %>/front/images/empty-state.png" alt="" />
+                <h5>No friends yet</h5>
+                <p>Add friends to start chatting</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="contact-error-state" class="text-center p-4" style="display: none;">
+        <div class="alert alert-danger">
+            <h6>Failed to load contacts</h6>
+            <button id="contact-retry-btn" class="btn btn-sm btn-outline-danger mt-2">Retry</button>
+        </div>
+    </div>
+</div>

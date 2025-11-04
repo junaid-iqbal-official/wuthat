@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../../admin/partials/head') %>
+  </head>
+  <body>
+    <div class="container-fluid p-0">
+      <div class="row m-0">
+        <div class="col-12 p-0">    
+          <div class="login-card animat-rate login-dark">
+            <div>
+              <div>
+                <a class="logo" href="javascript:void(0)">
+                  <% if (logoSettings && logoSettings.dark_logo && logoSettings.white_logo) { %>
+                    <img class="img-fluid for-light" src="<%= logoSettings.dark_logo %>" alt="Logo" />
+                    <img class="img-fluid for-dark" src="<%= logoSettings.white_logo %>" alt="Logo" />
+                  <% } else if (logoSettings && logoSettings.dark_logo) { %>
+                    <img class="img-fluid for-light" src="<%= logoSettings.dark_logo %>" alt="Logo" />
+                  <% } else if (logoSettings && logoSettings.white_logo) { %>
+                    <img class="img-fluid for-dark" src="<%= logoSettings.white_logo %>" alt="Logo" />
+                  <% } else { %>
+                    <img class="img-fluid for-light" src="<%= assetPath %>/images/logo/landing-logo.png" alt="Logo" />
+                    <img class="img-fluid for-dark" src="<%= assetPath %>/images/logo/logo-white.png" alt="Logo" />
+                  <% } %>
+                </a>
+              </div>
+              
+              <%- body %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%- include('../../admin/partials/script') %>
+    </div>
+  </body>
+</html>

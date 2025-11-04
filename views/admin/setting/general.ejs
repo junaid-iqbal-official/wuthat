@@ -1,0 +1,72 @@
+<div class="page-body">
+  <%- include('../global/components/breadcrumb.ejs',{ subTitle:"General Setting",icon:"setting"}) %>
+  <!-- Container-fluid starts-->
+  <div class="container-fluid default-dashboard">
+    <div class="row"><%- include('../auth/components/error-alert.ejs', { error:error }) %></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Usage Control</h5>
+          </div>
+            <div class="card-body">
+              <form class="g-3 needs-validation custom-input" novalidate method="post" id="" action="/admin/setting/edit/general">
+                <div class="row">
+                  <% for(const [key,obj] of settingMap.entries()){ %>
+                  <% if(!obj.is_array){ %>
+                      <div class="col-md-6 mb-4 position-relative">
+                        <label class="form-label" for="validationTooltip01"><%= obj.label %></label>
+                        <input type="text" class="form-control" name="<%= key %>" id="max-member" value="<%= obj.value %>" placeholder="Enter value" required="" />
+                      </div>
+                  <% }else{ %>
+                    <div class="col-md-6 mb-4 position-relative">
+                      <label class="form-label" for="validationTooltip01"><%= obj.label %></label>
+                      <small><b>Select multiple option You want</b></small>
+                      <select class="form-select" id="validationCustom04" name="<%= key %>" multiple>
+                        <% obj.value.forEach((val)=>{ %>
+                          <option value="<%= val %>"><%= val %></option>
+                        <% }); %>
+                      </select>
+                    </div>
+                  <% } %>
+                  <% } %>
+                </div>
+                <div class="col-12 mt-2  d-flex justify-content-end">
+                  <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Usage Option</h5>
+          </div>
+          <div class="card-body">
+            <form class="g-3 needs-validation custom-input" novalidate>
+              <div class="row">
+                <% for(const [key,obj] of toggleSettingMap.entries()){ %>
+                <div class="col-md-4 mb-4 position-relative">
+                  <label class="form-label" for="validationTooltip01"><%= obj.label %></label>
+                  <div class="form-check-size">
+                    <div class="form-switch form-check-inline">
+                      <input class="form-check-input switch-primary check-size" data-settingkey="<%= key %>" <%= obj.value === 'true' ? 'checked' : '' %> id="<%= key %>" type="checkbox" />
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Container-fluid Ends-->
+</div>
+
+<!-- modals -->
+<%- include('./modal/confirmation-modal') %>

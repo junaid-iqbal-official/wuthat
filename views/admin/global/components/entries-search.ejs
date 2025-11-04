@@ -1,0 +1,22 @@
+<div class="dt-layout-row">
+  <!-- Per page Entries Selection -->
+  <div class="dt-layout-cell dt-start">
+    <div class="dt-length">
+      Show :
+      <select name="roles-permission_length" aria-controls="roles-permission" class="dt-input form-select form-select-sm" id="<%= tableId %>-limit">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      Entries per page
+    </div>
+  </div>
+  <!-- Search Input -->
+  <div class="dt-layout-cell dt-end">
+    <div class="dt-search">
+      <label for="dt-search-0">Search:</label>
+      <input type="search" class="dt-input" id="<%= tableId %>-search" placeholder="Search here..." />
+    </div>
+  </div>
+</div>

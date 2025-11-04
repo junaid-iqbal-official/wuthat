@@ -1,0 +1,64 @@
+<div class="document-tab dynemic-sidebar" id="document">
+    <div class="theme-title">
+        <div class="d-flex">
+            <div>
+                <h2>Documents</h2>
+                <h4>All Shared Docs</h4>
+            </div>
+            <div class="flex-grow-1">
+                <a class="icon-btn btn-outline-light btn-sm m-r-15 search" href="javascript:void(0)">
+                    <i data-feather="search"></i>
+                </a>
+                <form class="form-inline search-form">
+                    <div class="form-group">
+                        <input class="form-control-plaintext" type="search" id="documentSearch" placeholder="Search.." />
+                        <div class="icon-close close-search"><i data-feather="x"> </i></div>
+                    </div>
+                </form>
+                <a class="icon-btn btn-outline-light btn-sm close-panel" href="javascript:void(0)"><i
+                        data-feather="x"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="doc-loading" class="text-center p-4">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <p class="mt-2">Loading documents...</p>
+    </div>
+    <div class="aligns custom-scroll">
+        <!-- Document List -->
+        <ul class="chat-main custom-scroll mt-3" id="doc-list" style="display: none;">
+            <!-- Documents will be loaded here dynamically -->
+        </ul>
+
+        <!-- Load More Button -->
+        <div id="doc-load-more-container" class="text-center p-3" style="display: none;">
+            <button id="doc-load-more-btn" class="btn btn-outline-primary btn-sm">
+                <span class="doc-load-more-text">Load More</span>
+                <span class="doc-load-more-spinner spinner-border spinner-border-sm d-none ml-2" role="status"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="doc-empty-state" class="empty-state" style="display: none;">
+        <div class="no-result">
+            <div class="text-center">
+                <img src="<%= assetPath %>/front/images/empty-state.png" alt="" />
+                <h5>No documents yet</h5>
+                <p>Share some documents to see them here</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="doc-error-state" class="text-center p-4" style="display: none;">
+        <div class="alert alert-danger">
+            <h6>Failed to load documents</h6>
+            <button id="doc-retry-btn" class="btn btn-sm btn-outline-danger mt-2">Retry</button>
+        </div>
+    </div>
+</div>

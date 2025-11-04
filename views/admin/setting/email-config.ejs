@@ -1,0 +1,42 @@
+<div class="page-body">
+  <%- include('../global/components/breadcrumb.ejs',{ subTitle:"E-mail Configuration",icon:"stroke-email"}) %>
+  <!-- Container-fluid starts -->
+  <div class="container-fluid default-dashboard">
+    <div class="row"><%- include('../auth/components/error-alert.ejs', { error:error }) %></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>E-mail Configuration</h5>
+          </div>
+          <div class="card-body">
+            <form class="g-3 needs-validation custom-input" novalidate="" method="post" action="/admin/setting/edit/email">
+              <% for(const [key,obj] of emailSettingMap.entries()){ %>
+              <div class="row  mb-4">
+                <div class="col-md-2 position-relative">
+                  <label class="form-label" for="validationTooltip01"><%= obj.label %></label>
+                </div>
+                <div class="col-md-10 position-relative">
+                    <% if(key === 'mailer'){ %>
+                      <select class="form-select" id="validationCustom04" name="<%= key %>">
+                        <option value="SendMail">SendMail</option>
+                        <option value="SMTP" selected>SMTP</option>
+                      </select>
+                    <% }else{ %>
+                      <input type="text" class="form-control" name="<%= key %>" id="mailer" value="<%= obj.value %>" placeholder="Enter Value" required="" />      
+                    <% } %>
+                </div>
+              </div>
+              <% } %>
+              <div class="col-12 mt-2 d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Container-fluid Ends -->
+</div>
+

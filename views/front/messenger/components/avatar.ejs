@@ -1,0 +1,9 @@
+<% if(avatar) { %>
+    <img class="bg-img" src="<%= avatar %>" alt="Avatar">
+<% } else { %>
+    <div class="avatar-circle">
+        <span class="initial">
+            <%= name.charAt(0).toUpperCase() %>
+        </span>
+    </div>
+<% } %>

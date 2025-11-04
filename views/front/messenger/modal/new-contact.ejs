@@ -1,0 +1,63 @@
+<div class="modal fade add-popup msg-chat-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Add Friend</h2>
+        <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="chat-msg-search">
+          <div class="input-group">
+            <input class="form-control" id="friendSearchInput"  type="text" placeholder="Search..." aria-label="Recipient's username" aria-describedby="basic-addon20"/>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon20">@</span>
+            </div>
+          </div>
+        </div>
+        <ul class="call-log-main custom-scroll chat-main" id="newFriendList">
+          <% newFriends.forEach((user) => { %>
+            <li class="chat-item">
+              <div class="call-box">
+                <div class="profile <%= user.is_online ? 'online' : 'offline' %>">
+                  <% if (user.avatar) { %>
+                    <img class="bg-img" src="<%= user.avatar %>" alt="Avatar"/>
+                  <% } else { %>
+                    <div class="avatar-circle">
+                      <span class="initial"><%= user.name.charAt(0).toUpperCase() %></span>
+                    </div>
+                  <% } %>
+                </div>
+                <div class="details">
+                  <h5><%= user.name %></h5>
+                  <h6><%= user.bio %></h6>
+                </div>
+                <div class="call-status custom-chat-item">
+                  <button type="button" 
+                          class="btn custom-chat-btn send-request-btn" 
+                          data-user-id="<%= user.id %>">
+                      <span class="btn-text">Send Request</span>
+                      <span class="btn-spinner spinner-border spinner-border-sm d-none ml-1"></span>
+                  </button>
+                </div>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+       <% if(newFriends.length === 0){ %>
+          <div class="text-center mb-5">No records yet</div>
+        <% } %>
+        <!-- Empty State -->
+        <div id="search-contact-empty-state" class="empty-state mb-5"  style="display: none;">
+          <div class="no-result">
+              <div class="text-center">
+                  <img src="<%= assetPath %>/front/images/empty-state.png" alt="" />
+                  <h5>No Records Found</h5>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

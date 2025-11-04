@@ -1,0 +1,37 @@
+<div class="modal fade report-user" id="reportUserModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Report User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="reportForm">
+          <input type="hidden" id="reportUserId" name="reportedUserId" />
+          <div class="mb-3">
+            <label class="form-label">Reason for reporting *</label>
+            <select class="form-select" name="reportType" required>
+              <option value="">Select a reason</option>
+              <% reportTypes.forEach((r)=>{ %>
+                <option value="<%= r.title %>"><%= r.title %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Additional details</label>
+            <textarea class="form-control" name="description" rows="3" placeholder="Please provide any additional information that might help us understand the situation..."></textarea>
+            <!-- Dynamic "Other" info will be inserted here by JavaScript -->
+          </div>
+          <div class="alert alert-info">
+            <i class="fa fa-info-circle"></i>
+            Your report is anonymous. The reported user won't know who reported them.
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="submitReport">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

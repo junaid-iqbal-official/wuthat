@@ -1,0 +1,42 @@
+<!-- Chat List Container -->
+<div id="recent-chat-chat-list-container">
+    <!-- Loading indicator -->
+    <div id="recent-chat-chat-loading" class="text-center p-4">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <p class="mt-2">Loading chats...</p>
+    </div>
+
+    <!-- Chat List -->
+    <ul class="chat-main chat-list custom-scroll" id="recent-chat-chat-list"  style="display: none;">
+        <!-- Chats will be loaded here dynamically -->
+    </ul>
+
+    <!-- Load More Button -->
+    <div id="recent-chat-load-more-container" class="text-center p-3">
+        <button id="recent-chat-load-more-btn" class="btn btn-outline-primary btn-sm">
+            <span class="load-more-text">Load More</span>
+            <span class="load-more-spinner spinner-border spinner-border-sm d-none ml-2" role="status"></span>
+        </button>
+    </div>
+
+    <!-- Empty State -->
+    <div id="recent-chat-empty-state" class="empty-state" style="display: none;">
+        <div class="no-result">
+            <div class="text-center">
+                <img src="<%= assetPath %>/front/images/empty-state.png" alt="" />
+                <h5>No conversations yet</h5>
+                <p>Start a new conversation to see it here</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="recent-chat-error-state" class="text-center p-4">
+        <div class="alert alert-danger">
+            <h6>Failed to load chats</h6>
+            <button id="recent-chat-retry-btn" class="btn btn-sm btn-outline-danger mt-2">Retry</button>
+        </div>
+    </div>
+</div>

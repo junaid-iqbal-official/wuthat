@@ -1,0 +1,34 @@
+<aside class="chitchat-left-sidebar left-disp">
+    <!-- Recent Chat Component-->
+    <%- include('./components/index') %>
+    <!-- Fav Component-->
+    <%- include('./components/favourite') %>
+    <!-- Doc component-->
+    <%- include('./components/documents') %>
+    <!-- Friend List-->
+    <%- include('./components/friends') %>
+    <!-- Blocked Contact List-->
+    <%- include('./components/block-contact') %>
+    <!-- Archive Chat-->
+    <%- include('./components/archive-chat') %>
+    <!-- Notification-->
+    <%- include('./components/notifications') %>
+    <!-- Settings -->
+    <%- include('./components/setting') %>
+</aside>
+<div class="chitchat-main small-sidebar" id="content">
+    <div class="chat-content tabto active">
+        <div class="messages custom-scroll active" id="blank">
+            <%- include('./components/blank-chat', { content: 'Select a chat to read messages' , hide: false }) %>
+        </div>
+        <div class="messages custom-scroll chatbox-container" id="chatting"
+            data-wallpaper="<%= settings.chat_wallpaper %>"></div>
+        <%- include('./components/message-box.ejs') %>
+    </div>
+    <div class="call-content tabto">
+        <a class="icon-btn btn-outline-primary button-effect mobile-back mb-3" href="javascript:void(0)">
+            <i class="ti-angle-left"> </i>
+        </a>
+    </div>
+</div>
+<%- include('./components/receiver-profile.ejs') %>

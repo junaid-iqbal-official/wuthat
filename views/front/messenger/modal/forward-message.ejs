@@ -1,0 +1,59 @@
+<div class="modal fade add-popup msg-chat-modal" id="forward-message" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Forward Message To</h2>
+          <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="chat-msg-search">
+            <div class="input-group">
+              <input class="form-control" id="forwardSearchInput" type="text" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon21"/>
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon21">@</span>
+              </div>
+            </div>
+          </div>
+          <ul class="chat-main custom-scroll" id="forwardContacts">
+            <% chatContact.forEach((chat) => { %>
+              <li class="forward-contact" data-to="<%= chat.id %>">
+                  <div class="chat-box">
+                    <div class="profile <%= chat.is_online ? 'online' : 'offline' %>">
+                      <% if (chat.avatar) { %>
+                        <img class="bg-img" src="<%= chat.avatar %>" alt="Avatar"/>
+                      <% } else { %>
+                        <div class="avatar-circle">
+                          <span class="initial"><%= chat.name.charAt(0).toUpperCase() %></span>
+                        </div>
+                      <% } %>
+                    </div>
+                    <div class="details">
+                      <h5><%= chat.name %></h5>
+                      <h6><%= chat.status %></h6>
+                    </div>
+                  </div>
+                  <div class="tick-icon">
+                    ✅
+                  </div>
+              </li>
+            <% }) %>
+          </ul>
+
+          <!-- Empty State -->
+          <div id="forward-empty-state" class="empty-state" style="display: none;">
+            <div class="no-result">
+                <div class="text-center">
+                  <img src="<%= assetPath %>/front/images/empty-state.png" alt="" />
+                  <h5>No Records Found</h5>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer text-end">
+            <button class="btn btn-primary" id="forwardSubmitBtn">Forward</button>
+        </div>        
+      </div>
+    </div>
+</div>

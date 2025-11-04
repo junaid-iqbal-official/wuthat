@@ -1,0 +1,91 @@
+<div class="audio-container d-none" id="audioContainer">
+    <!-- Remote audio elements will be dynamically added here -->
+</div>
+<div class="modal fade call-ui" id="audiocall" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-body">
+            <div class="audiocall1 call-modal">
+                <div class="call-header-bg text-center">
+                    <div class="alphabet-avatar" id="avatarInitials"></div>
+                </div>
+                <div class="center-con text-center">
+                    <div class="title2" id="callerName"></div>
+                    <h6 id="callerLocation">Calling...</h6>
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0)" class="icon-btn mic button-effect btn-xl">
+                                <i data-feather="mic"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" class="icon-btn btn-danger button-effect btn-xl cancel-call-btn">
+                                <i data-feather="phone"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Incoming Modal -->
+<div class="modal fade call-ui" id="incomingcall" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-body">
+            <div class="audiocall1 call-modal">
+                <div class="call-header-bg text-center">
+                    <div class="alphabet-avatar" id="avatarInitials"></div>
+                </div>
+                <div class="center-con text-center">
+                    <div class="title2" id="callerName"></div>
+                    <h6 id="callerLocation"></h6>
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="icon-btn btn-success button-effect btn-xl is-animating calling answer-call-btn">
+                                <i data-feather="phone"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="icon-btn btn-danger button-effect btn-xl decline-call-btn">
+                                <i data-feather="phone-off"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Video Overlay -->
+<div id="main-video-container" class="video-call-container d-none">
+    <div class="video-content">
+        <div class="remote-videos-grid" id="remote-videos-grid">
+            <!-- Remote videos will be added here -->
+        </div>
+        <div class="local-video-container">
+            <video id="local-video" autoplay muted playsinline></video>
+            <div class="video-overlay">
+                <span class="video-label">You</span>
+            </div>
+        </div>
+        <div class="video-controls-overlay">
+            <div class="call-info">
+                <span id="video-call-duration">00:00</span>
+                <span id="video-call-status">Connecting...</span>
+            </div>
+            <div class="video-control-buttons">
+                <button class="video-control-btn mute-btn" id="video-mute-btn">
+                    <i data-feather="mic"></i>
+                </button>
+                <button class="video-control-btn video-btn" id="video-toggle-btn">
+                    <i data-feather="video"></i>
+                </button>
+                <button class="video-control-btn end-btn" id="video-end-btn">
+                    <i data-feather="phone-off"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

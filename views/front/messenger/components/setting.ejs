@@ -1,0 +1,348 @@
+<div class="settings-tab dynemic-sidebar custom-scroll" id="settings">
+    <div class="theme-title">
+        <div class="d-flex">
+            <div>
+                <h2>Settings</h2>
+                <h4>Manage Your Preferences</h4>
+            </div>
+            <div class="flex-grow-1">
+                <a class="icon-btn btn-outline-light btn-sm close-panel" href="javascript:void(0)">
+                    <i data-feather="x"></i>
+                </a>
+            </div>
+        </div>
+        <% if (user) { %>
+            <div class="profile-box">
+                <div class="d-flex" id="user-avatar">
+                    <div class="profile" id="profile-pic">
+                        <% if(user.avatar) { %>
+                                <img class="bg-img" src="<%= user.avatar %>" alt="Avatar" id="user-avatar-img" />
+                                <div class="edit-overlay">
+                                    <i class="ti-pencil" aria-hidden="true" title="Edit Profile Picture"></i>
+                                </div>
+                        <% } else { %>
+                            <div class="profile offline">
+                                <div class="avatar-circle">
+                                    <span class="initial">
+                                        <%= user.name.charAt(0).toUpperCase() %>
+                                    </span>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="details">
+                        <h5 id="profile-name">
+                            <%= user.name %>
+                        </h5>
+                        <h6 id="user-bio">
+                            <%= user.bio %>
+                        </h6>
+                    </div>
+                    <div class="details edit">
+                        <form class="form-radious form-sm">
+                            <div class="form-group mb-2">
+                                <input class="form-control" type="text" name="name" placeholder="Enter Your Name..." id="new-name" autocomplete="off"
+                                    value="<%= user.name %>" />
+                            </div>
+                            <div class="form-group mb-0">
+                                <input class="form-control" type="text" name="bio" id="new-bio" value="<%= user.bio %>" placeholder="Enter Bio" />
+                            </div>
+                            <input type="file" name="file" id="new-pic">
+                        </form>
+                    </div>
+                    <div class="flex-grow-1">
+                        <a class="icon-btn btn-outline-light btn-sm pull-right edit-btn" id="edit-profile"
+                            href="javascript:void(0)">
+                            <i data-feather="edit"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+    <div class="aligns custom-scroll">
+        <div class="setting-block">
+            <div class="block custom-scroll">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <h3>Account</h3>
+                    </div>
+                    <div class="media-right">
+                        <a class="icon-btn btn-outline-light btn-sm pull-right previous" href="javascript:void(0)">
+                            <i data-feather="chevron-left"> </i>
+                        </a>
+                    </div>
+                </div>
+                <div class="theme-according" id="mainAccordion">
+                    <div class="card">
+                        <div class="card-header" id="securityHeading" role="heading" data-bs-toggle="collapse"
+                            data-bs-target="#securityCollapse" aria-expanded="true" aria-controls="securityCollapse">
+                            <a>Security<i class="fa fa-angle-down"></i></a>
+                        </div>
+                        <div class="collapse show" id="securityCollapse" aria-labelledby="securityHeading" data-parent="#mainAccordion">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex-grow-1">
+                                        <h5 id="changePasswordTrigger">Change Password</h5>
+                                    </div>
+                                </div>
+                                <p>
+                                    <b>Note : </b>
+                                    You'll be signed out from other devices. Use a strong, unique password.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="privacyHeading" role="heading" data-bs-toggle="collapse"
+                            data-bs-target="#privacyCollapse" aria-expanded="false" aria-controls="privacyCollapse">
+                            <a>Privacy <i class="fa fa-angle-down"></i></a>
+                        </div>
+                        <div class="collapse" id="privacyCollapse" aria-labelledby="privacyHeading" data-parent="#mainAccordion">
+                            <div class="card-body">
+                                <form id="privacySettingsForm">
+                                    <div class="accordion" id="privacyAccordion">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#privacyCollapseOne" aria-expanded="true"
+                                                    aria-controls="privacyCollapseOne">
+                                                    <h5>Who can see my last seen time?</h5>
+                                                </button>
+                                            </h2>
+                                            <div id="privacyCollapseOne" class="accordion-collapse collapse show"
+                                                data-bs-parent="#privacyAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="radio-input">
+                                                        <input type="radio" name="last_seen" id="radio-1"
+                                                            value="Everybody" <%=settings.last_seen==='Everybody'
+                                                            ? 'checked' : '' %>>
+                                                        <label for="radio-1">Everybody</label>
+                                                    </div>
+                                                    <div class="radio-input">
+                                                        <input type="radio" name="last_seen" id="radio-2" value="Nobody"
+                                                            <%=settings.last_seen==='Nobody' ? 'checked' : '' %>>
+                                                        <label for="radio-2">Nobody</label>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#privacyCollapseTwo"
+                                                    aria-expanded="false" aria-controls="privacyCollapseTwo">
+                                                    <h5>Who can see my profile photos?</h5>
+                                                </button>
+                                            </h2>
+                                            <div id="privacyCollapseTwo" class="accordion-collapse collapse"
+                                                data-bs-parent="#privacyAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="radio-input">
+                                                        <input type="radio" name="profile_pic" id="radio-4"
+                                                            value="Everybody" <%=settings.profile_pic==='Everybody'
+                                                            ? 'checked' : '' %>>
+                                                        <label for="radio-4">Everybody </label>
+                                                    </div>
+                                                    <div class="radio-input">
+                                                        <input type="radio" name="profile_pic" id="radio-5"
+                                                            value="Nobody" <%=settings.profile_pic==='Nobody'
+                                                            ? 'checked' : '' %>>
+                                                        <label for="radio-5">Nobody</label>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#privacyCollapseThree"
+                                                    aria-expanded="false" aria-controls="privacyCollapseThree">
+                                                    <h5>Who can call me?</h5>
+                                                </button>
+                                            </h2>
+                                            <div id="privacyCollapseThree" class="accordion-collapse collapse"
+                                                data-bs-parent="#privacyAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="radio-input">
+                                                        <input type="radio" name="call_me" id="radio-7"
+                                                            value="Everybody" <%=settings.call_me==='Everybody'
+                                                            ? 'checked' : '' %>>
+                                                        <label for="radio-7">Everybody</label>
+                                                    </div>
+                                                    <div class="radio-input">
+                                                        <input type="radio" name="call_me" id="radio-8" value="Nobody"
+                                                            <%=settings.call_me==='Nobody' ? 'checked' : '' %>>
+                                                        <label for="radio-8">Nobody</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <ul class="privacy">
+                                        <li>
+                                            <h5>Typing Indicator</h5>
+                                            <input class="js-switch10" type="checkbox" name="typing_indicator"
+                                                value="true" <%=settings.typing_indicator ? 'checked' : '' %> />
+                                            <p> <b>Note : </b>Turn off this to hide typing status for you only.</p>
+                                        </li>
+                                    </ul>
+
+                                    <div class="mt-4 text-end">
+                                        <button type="submit" class="btn btn-sm btn-primary" id="savePrivacySettings">
+                                            <i class="fa fa-save me-2"></i>Save
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="deleteAccountHeading" role="heading" data-bs-toggle="collapse"
+                            data-bs-target="#deleteAccountCollapse" aria-expanded="false"
+                            aria-controls="deleteAccountCollapse">
+                            <a>Delete My account<i class="fa fa-angle-down"></i></a>
+                        </div>
+                        <div class="collapse" id="deleteAccountCollapse" aria-labelledby="deleteAccountHeading"
+                            data-parent="#mainAccordion">
+                            <div class="card-body">
+                                <a class="p-0 req-info font-danger" href="javascript:void(0)" id="deleteAccountLink">
+                                    Delete Account
+                                </a>
+                                <p>
+                                    <b>Note :</b>Deleting your account will delete your account info, profile
+                                    photo, all groups & chat history.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="flex-grow-1">
+                    <h3>Account</h3>
+                    <h4>Update Your Account Details</h4>
+                </div>
+                <div class="media-right">
+                    <a class="icon-btn btn-outline-light btn-sm pull-right next" href="javascript:void(0)">
+                        <i data-feather="chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="setting-block">
+            <div class="block">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <h3>Chat</h3>
+                    </div>
+                    <div class="media-right">
+                        <a class="icon-btn btn-outline-light btn-sm pull-right previous" href="javascript:void(0)">
+                            <i data-feather="chevron-left"></i>
+                        </a>
+                    </div>
+                </div>
+                <ul class="help">
+                    <li>
+                        <h5>Chat Backup</h5>
+                        <ul class="switch-list">
+                            <li>
+                                <input class="js-switch5" data-userId="<%= user.id %>" type="checkbox" id="auto-backup"
+                                    <%=settings.auto_chat_backup ? 'checked' : '' %> />
+                                <h5>Auto Backup</h5>
+                            </li>
+                            <li>
+                                <input class="js-switch6" id="include-doc" type="checkbox"
+                                    <%=settings.include_doc_backup ? 'checked' : '' %> />
+                                <h5>Include document</h5>
+                            </li>
+                            <li>
+                                <input class="js-switch7" type="checkbox" id="include-vid"
+                                    <%=settings.include_video_backup ? 'checked' : '' %> />
+                                <h5>Include Videos</h5>
+                            </li>
+                        </ul>
+                    </li>
+                    <% if(wallpapers.length > 0){ %>
+                        <li>
+                            <h5>Chat wallpaper</h5>
+                            <ul class="wallpaper">
+                                <% wallpapers.forEach(w => { %>
+                                    <li class="bg-size" data-wallpaper="<%= w.wallpaper %>">
+                                        <img class="bg-img" src="<%= w.wallpaper %>" alt="Avatar" />
+                                    </li>
+                                <% }) %>
+                            </ul>
+                        </li>
+                    <% } %>
+                    <li>
+                        <h5> <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#archive-all-chat">Archive all chat</a></h5>
+                    </li>
+                    <li>
+                        <h5> 
+                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#clearAllChatModal">Clear all chats</a>
+                        </h5>
+                    </li>
+                    <li>
+                        <h5> 
+                            <a class="font-danger" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#delete-all-chat">Delete all chats</a>
+                        </h5>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-flex">
+                <div class="flex-grow-1">
+                    <h3>Chat</h3>
+                    <h4>Control Your Chat Backup</h4>
+                </div>
+                <div class="media-right">
+                    <a class="icon-btn btn-outline-light btn-sm pull-right next" href="javascript:void(0)">
+                        <i data-feather="chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="setting-block">
+            <div class="block">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <h3>Help</h3>
+                    </div>
+                    <div class="media-right">
+                        <a class="icon-btn btn-outline-light btn-sm pull-right previous" href="javascript:void(0)">
+                            <i data-feather="chevron-left"></i>
+                        </a>
+                    </div>
+                </div>
+                <ul class="help">
+                    <li>
+                        <h5> <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#faqModal">FAQ</a></h5>
+                    </li>
+                    <li>
+                        <h5> <a href="javascript:void(0)" id="contact-us">Contact Us</a></h5>
+                    </li>
+                    <li>
+                        <h5> <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a></h5>
+                    </li>
+                    <li>
+                        <h5> <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#termsModal">Terms & Conditions</a></h5>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-flex">
+                <div class="flex-grow-1">
+                    <h3>Help</h3>
+                    <h4>Reach Out For Support</h4>
+                </div>
+                <div class="media-right">
+                    <a class="icon-btn btn-outline-light btn-sm pull-right next" href="javascript:void(0)">
+                        <i data-feather="chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

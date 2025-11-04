@@ -1,0 +1,53 @@
+<div class="modal edit-user-modal fade" id="editUserModal" tabindex="-1" aria-labelledby="dashboard8" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content category-popup">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modaldashboard">Edit User</h5>
+        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0 custom-input">
+        <div class="text-start">
+          <div class="p-20">
+            <form id="editUser">
+              <div class="row mb-3">
+                <label class="form-label col-2" for="validationCategoryName">Name<span class="txt-danger">*</span></label>
+                <input class="form-control col-10" id="edit-name" name="name" type="text" placeholder="Enter full name" required="" />
+              </div>
+              <div class="row mb-3">
+                <label class="form-label col-2" for="validationSlug">Email<span class="txt-danger">*</span></label>
+                <input class="form-control col-10" id="edit-email" name="email" type="email" placeholder="Enter Email" required="" />
+              </div>
+              <div class="row mb-3">
+                <label class="form-label col-2" for="validationSlug">User Name<span class="txt-danger">*</span></label>
+                <input class="form-control col-10" id="edit-username" name="username" type="text" placeholder="Enter User Name" required="" />
+              </div>
+              <div class="row mb-3">
+                <label class="form-label col-2" for="validationSlug">Phone<span class="txt-danger">*</span></label>
+                <input class="form-control col-10" id="edit-phone" name="phone" type="tel" placeholder="Enter Phone number" required="" />
+              </div>
+              <div class="row mb-3">
+                <label class="form-label col-2">Role<span class="txt-danger">*</span></label>
+                <select class="form-select col-10" aria-label="Select category status" id="edit-role" name="role">
+                  <option selected="" value="admin">Admin</option>
+                  <option value="user">User</option>
+                </select>
+              </div>
+
+              <div class="row mb-3">
+                <label class="form-label col-2">Status<span class="txt-danger">*</span></label>
+                <div class="form-check-size col-10">
+                  <div class="form-check form-switch form-check-inline">
+                    <input class="form-check-input switch-primary check-size" name="status" id="edit-status" type="checkbox" role="switch" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
