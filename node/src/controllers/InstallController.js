@@ -22,8 +22,6 @@ async function getVerifySetup(req, res) { res.render('stvi', { title: 'Verify' }
 
 async function getLicense(req, res) {
   if (!(await getConfigured())) return res.redirect('requirements');
-
-  console.log("hello");
   
   // Skip license verification if SKIP_LICENSE is set to true
   if (process.env.SKIP_LICENSE === 'true') {
@@ -64,8 +62,7 @@ const postLicense = [
       }).catch(e => e.response);
       verificationSuccess = resp && resp.status === 200;
     }
-    verificationSuccess = true;
-
+    
     if (verificationSuccess) {
       // Create license files
       const pubDir = path.join(basePath(), 'public');
