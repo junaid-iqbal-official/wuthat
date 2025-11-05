@@ -24,13 +24,19 @@ async function strFilRM(filePath) { if (await fs.pathExists(filePath)) await fs.
 async function strFlExs(filePath) { return fs.pathExists(filePath); }
 
 async function liSync() {
+  const req = global.currentRequest;
   const licPath = publicPath('_log.dic.xml');
   if (!(await fs.pathExists(licPath))) return false;
   const jD = await fs.readFile(licPath, 'utf8');
   if (!jD) return false;
   
-  // Check for localhost like PHP version does
-  const currentUrl = process.env.APP_URL || '';
+  // Get dynamic URL
+  let currentUrl = '';
+  if (req) {
+    currentUrl = `${req.protocol}://${req.get('host')}`;
+  } else {
+    currentUrl = process.env.APP_URL || '';
+  }
   
   // Decode the saved URL to check for localhost
   const savedUrl = Buffer.from(jD, 'base64').toString('utf8');
