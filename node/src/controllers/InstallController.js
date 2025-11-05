@@ -31,6 +31,8 @@ async function getLicense(req, res) {
   // Check if license files exist and are valid
   const licPath = publicPath('_log.dic.xml');
   const hasValidLicense = await fs.pathExists(licPath);
+
+  console.log("hell0");
   
   return res.redirect('database');
   if (hasValidLicense && await liSync()) {
