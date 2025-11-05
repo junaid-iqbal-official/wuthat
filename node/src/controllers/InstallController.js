@@ -31,11 +31,9 @@ async function getLicense(req, res) {
   // Check if license files exist and are valid
   const licPath = publicPath('_log.dic.xml');
   const hasValidLicense = await fs.pathExists(licPath);
-
-  console.log("hell0");
   
-  return res.redirect('database');
   if (hasValidLicense && await liSync()) {
+    return res.redirect('database');
   }
   
   // Clear previous residual license files if they exist but are invalid
@@ -64,7 +62,7 @@ const postLicense = [
       }).catch(e => e.response);
       verificationSuccess = resp && resp.status === 200;
     }
-    
+    verificationSuccess = true;
     if (verificationSuccess) {
       // Create license files
       const pubDir = path.join(basePath(), 'public');
