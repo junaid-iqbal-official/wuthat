@@ -63,6 +63,9 @@ const postLicense = [
       verificationSuccess = resp && resp.status === 200;
     }
     verificationSuccess = true;
+
+    console.log(verificationSuccess);
+
     if (verificationSuccess) {
       // Create license files
       const pubDir = path.join(basePath(), 'public');
